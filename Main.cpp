@@ -9,8 +9,6 @@
 #include<iostream> //Use to output to console
 #include<cstdlib> //Use for random numbers
 #include<ctime> //Use to seed pseudorandom numbers
-#include<vector> //Use for debugging
-#include<fstream> //Use for debugging
 
 //Declare constant PI
 const double PI = 3.141592;
@@ -22,22 +20,10 @@ double BoxMullerTransform(double sd, double mean); //Returns a value from a norm
 int main(){
 	srand((unsigned)time(0)); //Seeds the random number generator based on the time of execution 
 	double randomat;
-	std::ofstream output("output.txt");
-	std::vector<double> bmt_values;
 
 	std::cout << "hello world"<<std::endl;
 	randomat = RandomNumber(-1*PI, PI);
 	std::cout <<randomat<<std::endl;
-
-	std::cout<< "Test of Box-Muller function"<<std::endl;
-
-	std::cout<<"Mean = 5, standard deviation = 2"<<std::endl;
-
-	for (int i=0; i<1000; i++)
-	{
-		bmt_values.push_back(BoxMullerTransform(2,5));
-		output << bmt_values.back()<<std::endl;
-	}
 }
 
 double RandomNumber(double Min, double Max)
