@@ -11,7 +11,7 @@
 #include<ctime> //Use to seed pseudorandom numbers
 
 //Declare constant PI
-const double PI = 3.141592;
+const double pi=std::acos(-1.0); //gives the maximum number of decimal places for a double
 
 //Function prototypes
 double RandomNumber(double Min, double Max); //Returns a pseudorandom double between Min and Max. Based on http://stackoverflow.com/questions/4310277/producing-random-float-from-negative-to-positive-range
@@ -22,7 +22,7 @@ int main(){
 	double randomat;
 
 	std::cout << "hello world"<<std::endl;
-	randomat = RandomNumber(-1*PI, PI);
+	randomat = RandomNumber(-1*pi, pi);
 	std::cout <<randomat<<std::endl;
 }
 
