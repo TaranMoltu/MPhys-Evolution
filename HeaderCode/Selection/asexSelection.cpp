@@ -5,7 +5,7 @@
  *      Author: Joshua
  */
 
-#include "../Headers/entities.h"
+#include "../../Headers/entities.h"
 
 using namespace org;
 
@@ -18,4 +18,5 @@ bool height::selection(){ //NOTE: We need to fix this function
 	else{
 		return false;
 	}
-		}
+}
+

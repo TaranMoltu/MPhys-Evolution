@@ -17,7 +17,7 @@ double random::flat(double Min, double Max){
 
 double random::gaussian(double sd, double mean) //Based on implementation by Dr Everett Carter @ Taygeta Scientific inc.
 {
-	double x1, w, z1; //x1 and x2 are the random numbers defined in Boxmuller function
+	double x1,x2, w, z1; //x1 and x2 are the random numbers defined in Boxmuller function
 
 	if (use)
 	{
@@ -28,13 +28,13 @@ double random::gaussian(double sd, double mean) //Based on implementation by Dr 
 	{
 		do {
 			x1 = 2.0 * this->flat(0,1) - 1.0;
-			storedGaussian = 2.0 * this->flat(0,1) - 1.0;
-			w = x1 * x1 + storedGaussian * storedGaussian;
+			x2 = 2.0 * this->flat(0,1) - 1.0;
+			w = x1 * x1 + x2 * x2;
 		} while ( w >= 1.0 );
 
 		w = sqrt( (-2.0 * log( w ) ) / w );
 		z1 = x1 * w;
-		storedGaussian = storedGaussian * w;
+		storedGaussian = x2 * w;
 	}
 
 	return( mean + z1 * sd ); //To get any mean/sd we scale wrt sd and transform wrt mean (source: http://en.literateprograms.org/Box-Muller_transform_%28C%29)

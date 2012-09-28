@@ -5,19 +5,22 @@
  *      Author: Joshua
  */
 
-#include "../Headers/entities.h"
+#include "../../Headers/entities.h"
 
 using namespace org;
 
 /*============================================================================
  * Factories
  *========================================================================== */
+gene* height::clone()const{
+	gene* temp = new height(this->value,this->rate);
+	return temp;
+}
 
-
-entity* entity::clone(){
-			entity* temp = new entity(this->lifetime, this->props);
-			return temp;
-		}
+entity* entity::clone()const{
+	entity* temp = new entity(this->lifetime,*this);
+	return temp;
+}
 
 /*============================================================================
  * Asexual reproduction
@@ -25,6 +28,7 @@ entity* entity::clone(){
 
 entity* entity::asex(){
 	entity* temp = this->clone();
-	temp->props.mutate();
+	temp->mutate();
 	return temp;
 }
+

@@ -2,6 +2,7 @@
 #define Agents
 
 #include<iostream>
+#include<sstream>
 #include<string>
 #include<vector>
 #include<cmath>
@@ -11,12 +12,15 @@ namespace org{
 
 class gene {
 	
+	friend std::ostream & operator<<(std::ostream &os, const gene &source);
+
 	public:
 
-		virtual gene* clone()=0;//factory
-		virtual ~gene(){}
+		virtual gene* clone()const=0;//factory
+		virtual ~gene(){};
 		virtual void mutate()=0; // how does this gene mutate?
 		virtual bool selection()=0; //may need to be numerical later- how is this gene selected
+		virtual std::string info()const=0;
 		
 	
 	};
@@ -27,114 +31,78 @@ class height : public gene{
 		double rate; //rate of mutation
 
 	public:
-		gene* clone();
-		height(const double height=1.5, const double rate=0.0):value(height), rate(rate){}
-		virtual ~height(){}
-		void mutate();
-		bool selection();
+		virtual gene* clone()const;
+		height(const double &height, const double &rate1);
+		~height();
+		virtual void mutate();
+		virtual bool selection();
+		virtual std::string info() const;
 
 	};
 
 class genome{
-	 public:
-	 std::vector<gene*> genes;
 
-	 void addGene(gene* toCopy){
-		 gene* temp = toCopy->clone();
-		 genes.push_back(temp);
-	 }
+	friend std::ostream & operator << (std::ostream &os, const genome &source);
 
-	 genome(){
-		 gene* temp = new height(1.5,0.0);
-		 genes.push_back(temp);
-	 }
+protected:
+	std::vector<gene*> genes;
 
-	 ~genome(){
-		std::vector<gene*>::const_iterator current,begin,end;
-		begin = genes.begin();
-		end = genes.end();
+public:
+	void addGene(gene* toCopy);
 
-		for (current=begin; current<end;++current){//delete all genes
-			delete[] *current;
-		}
-		genes.clear();
-	 }
+	genome();
+	genome(const genome &source);
 
-	 unsigned int getSize()const{
-		 return genes.size();
-	 }
+	~genome();
 
-	genome operator=(const genome &source){
-		if (this!=&source) {
-			genes.clear();
-			for(unsigned int i(0);i<source.getSize();++i){
+	unsigned int getSize()const;
 
-				genes.push_back(source(i)->clone());
-			}
-		}
-		return *this;
-	}
+	genome operator=(const genome &source);
+	gene* operator()(const unsigned int i) const;
 
-	 //genome(genome toCopy){
-
-
-	 //}
-
-
-
-	 gene* operator()(const unsigned int i) const{//override brackets to give a sane return
-	 	if (i == 0 || i > genes.size() ){
-	 			std::cout << "out of range" << std::endl;
-	 			return NULL;
-	 	}
-	 	else{
-	 		return (this->genes[i]);
-	 	}
-	 }
-
-	 void mutate(){
-		 std::vector<gene*>::const_iterator current,begin,end;
-		begin = genes.begin();
-		end = genes.end();
-
-		for (current=begin; current<end;++current){//delete all genes
-			(*current)->mutate();
-		}
-	 }
+	void mutate();
 	
 	};
 
-class entity {
-	
+class entity: public genome {
+	friend std::ostream & operator << (std::ostream &os, const entity &source);
 	protected:
-	
+
 		double lifetime;
-		genome props;	
-	
-		virtual entity* clone() const{
-			return new entity(*this);
-		} 
+
+
 	public:
-		entity(const double lifetime=1.0, const genome props=genome()): lifetime(lifetime), props(props){}
+		entity(const double lifetime=1.0, const genome &genomeSource = genome()  ): genome(genomeSource), lifetime(lifetime) {}
 		virtual ~entity(){}
 
-		entity* clone();
+		entity* clone() const; //factory for entities
 
-		entity* asex();
+		entity* asex(); //reproduce asexually.
 
-	};
+};
 
-
-
-
-
-
-	class environment{
+class environment{
 	protected:
-		std::vector<entity> entities;
+		std::vector<entity*> entities;
 	public:
+		environment(){}
+		~environment(){
+			std::vector<entity*>::const_iterator current,begin,end;
+			begin = entities.begin();
+			end = entities.end();
+
+			for (current=begin; current<end;++current){//delete all genes
+				delete[] *current;
+			}
+			entities.clear();
+		}
+		void addEntity(entity* toAdd);
 
 	};
+
+std::ostream & operator<<(std::ostream &os, const gene &source);
+std::ostream & operator<<(std::ostream &os, const genome &source);
+std::ostream & operator<<(std::ostream &os, const entity &source);
 }
 
 #endif
