@@ -22,7 +22,15 @@ void genome::mutate(){
 
 void height::mutate(){
 	double mean = value;
-	double sd=rate;
+	double sd= standardDeviation;
 
-	value= roll.gaussian(sd,mean);
+	value=maths::roll.gaussian(sd,mean);
+	std::cout<< "mutated to " <<value<<std::endl;
+	while(value  > max){
+		value = value -(max-min);
+	}
+
+	while(value  < min){
+			value = value -(max-min);
+		}
 }

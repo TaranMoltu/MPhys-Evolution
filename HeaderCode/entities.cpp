@@ -5,6 +5,7 @@
  *      Author: Joshua
  */
 #include "../Headers/entities.h"
+#include "../Headers/random.h"
 using namespace org;
 
 
@@ -12,14 +13,16 @@ using namespace org;
  * Constructors
  *========================================================================== */
 
-height::height(const double &height, const double &rate1){ value=height; rate=rate1;};
+height::height(const double &height, const double &sd, const double &rate1): value(height), standardDeviation(sd), rate(rate1) {
+	max=maths::pi; min=-maths::pi;
+}
 
 void environment::addEntity(entity* toAdd){
 	entities.push_back(toAdd);
 }
 
 genome::genome(){
-	 gene* temp = new height(1.5,0.3);
+	 gene* temp = new height;
 	 genes.push_back(temp);
 }
 
@@ -93,7 +96,7 @@ std::ostream & org::operator<<(std::ostream &os, const gene &source){
 
 std::string height::info() const{
 	std::stringstream out;
-	out << "height: " << value << "m";
+	out << "height: " << value << "m" <<" sd: " << standardDeviation <<" range:"<< min <<" - "<< max;
 	return out.str();
 }
 

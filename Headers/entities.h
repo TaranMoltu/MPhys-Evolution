@@ -28,11 +28,13 @@ class gene {
 class height : public gene{
 	protected:
 		double value;
+		double standardDeviation;
+		double min,max; //range of possible values
 		double rate; //rate of mutation
 
 	public:
 		virtual gene* clone()const;
-		height(const double &height, const double &rate1);
+		height(const double &height=1.0, const double &sd=0.5, const double &rate1=0.01);
 		~height();
 		virtual void mutate();
 		virtual bool selection();

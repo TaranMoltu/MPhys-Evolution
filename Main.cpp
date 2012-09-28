@@ -9,7 +9,7 @@
 #include "Headers/random.h"
 
 //Declare constant PI
-const double pi=std::acos(-1.0); //gives the maximum number of decimal places for a double
+
 
 int main(){
 
