@@ -28,6 +28,8 @@ namespace maths{
 
 			double gaussian(double sd, double mean);
 	};
+	
+	random roll;
 }
 
 #endif /* RANDOM_H_ */
