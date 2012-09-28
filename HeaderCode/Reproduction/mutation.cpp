@@ -23,7 +23,6 @@ void genome::mutate(){
 void height::mutate(){
 	double mean = value;
 	double sd=rate;
-	maths::random rnGenerator;
 
-	value= rnGenerator.gaussian(sd,mean);
+	value= roll.gaussian(sd,mean);
 }
