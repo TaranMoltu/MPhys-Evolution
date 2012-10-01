@@ -31,6 +31,6 @@ void height::mutate(){
 	}
 
 	while(value  < min){
-			value = value -(max-min);
+			value = value +(max-min);
 		}
 }
