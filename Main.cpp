@@ -8,7 +8,7 @@
 #include "Headers/entities.h"
 #include "Headers/random.h"
 
-#include <fstream>
+
 
 
 int main(){
@@ -16,14 +16,12 @@ int main(){
 
 	std::ofstream file("run.dat");
 	std::cout << "hello world"<<std::endl;
-	org::entity test2;
-	std::cout<< test2<<std::endl;
-	org::entity* test2a= test2.asex();
-	for(int i(0);i<10;i++){
-		file << test2a->log() <<",";
-		test2a= test2a->asex();
+	org::environment test;
+	for(unsigned int i(0); i<9; i++){
+		std::cout << i<<std::endl;;
+		test.tick();
+		std::cout <<"end of "<< i<<std::endl;
 	}
-
 
 
 

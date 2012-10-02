@@ -65,6 +65,17 @@ genome::~genome(){
 	genes.clear();
 }
 
+environment::~environment(){
+	std::vector<entity*>::const_iterator current,begin,end;
+	begin = entities.begin();
+	end = entities.end();
+
+	for (current=begin; current<end;++current){//delete all genes
+		delete[] *current;
+	}
+	entities.clear();
+}
+
 /*============================================================================
  * Accesors
  *========================================================================== */
@@ -85,6 +96,26 @@ gene* genome::operator()(const unsigned int i) const{//override brackets to give
 
 double height::getValue()const{
 	return value;
+}
+
+/*============================================================================
+ * tick
+ *========================================================================== */
+void environment::tick(){
+	std::vector<entity*>::const_iterator current,begin,end;
+		begin = entities.begin();
+		end = entities.end();
+		entity* parent;
+		entity* child;
+
+		for (current=begin; current<end;++current){
+			parent = (*current);
+			//add kill
+			child=parent->asex();
+			this->addEntity(child);
+		}
+	std::cout << "ticked"<<std::endl;
+	this->log();
 }
 
 /*============================================================================
@@ -132,4 +163,19 @@ std::string entity::log() const{
 
 }
 
+void environment::log()const{
+	std::cout <<"logging"<<std::endl;
+	std::ofstream file("run.dat");
+	std::vector<entity*>::const_iterator current,begin,end;
+	begin = entities.begin();
+	end = entities.end();
+
+	for (current=begin; current<end;++current){
+		if (current==begin)file << (*current)->log();
+		else file << ","<<(*current)->log();
+	}
+
+	file <<std::endl;
+	file.close();
+}
 

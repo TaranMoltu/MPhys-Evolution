@@ -6,7 +6,7 @@
 #include<string>
 #include<vector>
 #include<cmath>
-#include<ctime>
+#include <fstream>
 
 namespace org{
 
@@ -91,19 +91,14 @@ class entity: public genome {
 class environment{
 	protected:
 		std::vector<entity*> entities;
+		std::string logFile;
 	public:
-		environment(){}
-		~environment(){
-			std::vector<entity*>::const_iterator current,begin,end;
-			begin = entities.begin();
-			end = entities.end();
-
-			for (current=begin; current<end;++current){//delete all genes
-				delete[] *current;
-			}
-			entities.clear();
-		}
+		environment(std::string log="log.dat"): logFile(log){entity* temp= new entity; addEntity(temp);}
+		~environment();
 		void addEntity(entity* toAdd);
+
+		void tick();
+		void log()const;
 
 	};
 

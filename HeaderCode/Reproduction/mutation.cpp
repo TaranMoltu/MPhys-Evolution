@@ -25,7 +25,6 @@ void height::mutate(){
 	double sd= standardDeviation;
 
 	value=maths::roll.gaussian(sd,mean);
-	std::cout<< "mutated to " <<value<<std::endl;
 	while(value  > max){
 		value = value -(max-min);
 	}
