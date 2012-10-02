@@ -20,19 +20,22 @@ i = 1; %counter for while expression
 [rows, cols] = size(datamatrix); %rows is number of rows etc
 hold on; %Ensure everything is plotted on one graph
 
-%Now use two for loops to plot a graph. Note the commented out code is just
-%debugging loops.
+%Now use two while loops to plot a graph. There is a problem with this method
+%described in issue #18.
 while i<=rows
-    %fprintf('In outer loop. i is %6.2f.\n',i);
     j=1;
     while j<=cols
-        %fprintf('In inner loop. j is %6.2f.\n',j);
-        %fprintf('%6.2f.\n',datamatrix(i,j));
-        plot(datamatrix(i,j), i-1, '-o'); %Use i-1 so first time step is t=0
+        plottingdata(j) = datamatrix(i,j);
+        %plot(datamatrix(i,j), i-1, 'o'); %Use i-1 so first time step is t=0
         j=j+1;
     end
+    plot(i-1, plottingdata, '-o');
+    clear plottingdata;
     i=i+1;
 end
+
+
+
 xlabel('Time');
 ylabel('x');
 hold off;
@@ -98,8 +101,12 @@ end
 %WARNING: see issue #17, there is a problem with this method.
 for i=1:rows
     for j=1:buckets
-        bucketfractions(i,j) = (bucketmatrix(i,j)/rows)*255; %255 is hex code as explained aboves
+        bucketfractions(i,j) = (bucketmatrix(i,j)/rows)*255; %255 is hex code as explained above
     end
 end
+
+%We now need to start graphing these colours
+
+
 
 disp('End of program');
