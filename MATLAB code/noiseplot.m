@@ -7,39 +7,13 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-filename = input('What is the filename for the data including extension?: ');
+%filename = input('What is the filename for the data including extension?: ');
+filename = 'test.csv';
 datamatrix = csvread(filename);
-
-%We have now read in the data to the matrix datamatrix. Next we want to
-%plot these. Going down in datamatrix (increasing rows) means a new
-%discrete value of time. Going across in a row are all the heights in that
-%time period.
-
-i = 1; %counter for while expression
-
 [rows, cols] = size(datamatrix); %rows is number of rows etc
-hold on; %Ensure everything is plotted on one graph
-
-%Now use two for loops to plot a graph. Note the commented out code is just
-%debugging loops.
-while i<=rows
-    %fprintf('In outer loop. i is %6.2f.\n',i);
-    j=1;
-    while j<=cols
-        %fprintf('In inner loop. j is %6.2f.\n',j);
-        %fprintf('%6.2f.\n',datamatrix(i,j));
-        plot(datamatrix(i,j), i-1, '-o'); %Use i-1 so first time step is t=0
-        j=j+1;
-    end
-    i=i+1;
-end
-xlabel('Time');
-ylabel('x');
-hold off;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% The basic functionality of plotting the value x (height in our example)
-% vs time is now implemented. We now want to start implementing histogram
+% Data has been read in. We now want to start implementing histogram
 % functionality. To do this, we examine each generation and work out how
 % many fit in a 'bucket'. We know that the range of values is from -pi to
 % pi so we can ask the user how many buckets they want and divide the range
@@ -87,6 +61,27 @@ for i=1:rows
     end
 end
 
+%We now have the number that fits into every bucket for all generations. We
+%hence want to convert these to a grayscale value. This can be done by
+%working out the fraction of the total that are in each bucket for the
+%generation and then multiplying by 255. This means that if a bucket
+%contains all the numbers for a generation, its hex code will be 255 and so
+%it will be white. Conversely, if it contains none then its hex code will
+%be 000 and so black. The darker a bucket is, the emptier it is.
 
+%WARNING: see issue #17, there is a problem with this method.
+for i=1:rows
+    for j=1:buckets
+        bucketfractions(j,i) = (bucketmatrix(i,j)/cols)*255; %255 is hex code as explained above
+    end
+end
 
-%To get greyscale value, work out percentage and times by 255
+%We now need to start graphing these colours
+%ia=ones(200,200).*255;
+ imshow(bucketfractions);
+% 
+% [fractionrows, fractioncols] = size(bucketfractions);
+% ia(1:fractionrows, 1:fractioncols) = bucketfractions;
+% 
+% imshow(ia(1:fractionrows, 1:fractioncols));
+disp('End of program');
