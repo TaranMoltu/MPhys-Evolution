@@ -18,7 +18,7 @@ height::height(const double &height, const double &sd, const double &rate1): val
 }
 
 void environment::addEntity(entity* toAdd){
-	entities.push_back(toAdd);
+	entities.push_front(toAdd);
 }
 
 genome::genome(){
@@ -66,12 +66,11 @@ genome::~genome(){
 }
 
 environment::~environment(){
-	std::vector<entity*>::const_iterator current,begin,end;
-	begin = entities.begin();
+	std::list<entity*>::const_iterator current,begin,end;
 	end = entities.end();
 
-	for (current=begin; current<end;++current){//delete all genes
-		delete[] *current;
+	for (current=entities.begin(); current!=end;++current){//delete all genes
+		delete *current;
 	}
 	entities.clear();
 }
@@ -102,19 +101,20 @@ double height::getValue()const{
  * tick
  *========================================================================== */
 void environment::tick(){
-	std::vector<entity*>::const_iterator current,begin,end;
-		begin = entities.begin();
+	//entities.reserve(entities.size()*2);
+	std::list<entity*>::iterator current,end;
+		current = entities.begin();
 		end = entities.end();
 		entity* parent;
 		entity* child;
-
-		for (current=begin; current<end;++current){
+		for (current=entities.begin(); current!=end; ++current){
 			parent = (*current);
-			//add kill
 			child=parent->asex();
 			this->addEntity(child);
+			if(parent->death(0.0)){
+				current=entities.erase(current);
+			}
 		}
-	std::cout << "ticked"<<std::endl;
 	this->log();
 }
 
@@ -164,18 +164,17 @@ std::string entity::log() const{
 }
 
 void environment::log()const{
-	std::cout <<"logging"<<std::endl;
-	std::ofstream file("run.dat");
-	std::vector<entity*>::const_iterator current,begin,end;
-	begin = entities.begin();
+	std::fstream logStream;
+	logStream.open(logFile.c_str(), std::ios::out | std::ios::app);
+	std::list<entity*>::const_iterator current,end;
 	end = entities.end();
 
-	for (current=begin; current<end;++current){
-		if (current==begin)file << (*current)->log();
-		else file << ","<<(*current)->log();
+	for (current=entities.begin(); current!=end; ++current){
+		if (current==entities.begin()) logStream << (*current)->log();
+		else logStream << ","<<(*current)->log();
 	}
 
-	file <<std::endl;
-	file.close();
+	logStream <<std::endl;
+	logStream.close();
 }
 

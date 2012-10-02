@@ -15,7 +15,7 @@ void genome::mutate(){
 	begin = genes.begin();
 	end = genes.end();
 
-	for (current=begin; current<end;++current){//delete all genes
+	for (current=begin; current<end;++current){//mutate all genes
 		(*current)->mutate();
 	}
 }

@@ -5,8 +5,9 @@
 #include<sstream>
 #include<string>
 #include<vector>
+#include<list>
 #include<cmath>
-#include <fstream>
+#include<fstream>
 
 namespace org{
 
@@ -86,11 +87,13 @@ class entity: public genome {
 
 		entity* asex(); //reproduce asexually.
 
+		bool death(double evFactor);
+
 };
 
 class environment{
 	protected:
-		std::vector<entity*> entities;
+		std::list<entity*> entities;
 		std::string logFile;
 	public:
 		environment(std::string log="log.dat"): logFile(log){entity* temp= new entity; addEntity(temp);}

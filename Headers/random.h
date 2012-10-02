@@ -10,6 +10,7 @@
 
 #include<cstdlib> //Use for random numbers
 #include<ctime> //Use to seed pseudorandom numbers
+#include<cmath>
 
 namespace maths{
 	const double pi=std::acos(-1.0); //gives the maximum number of decimal places for a double
