@@ -94,10 +94,12 @@ end
 %contains all the numbers for a generation, its hex code will be 255 and so
 %it will be white. Conversely, if it contains none then its hex code will
 %be 000 and so black. The darker a bucket is, the emptier it is.
-%To do this, we will calculate the size of each generation (taken from 
-%datamatrix) in a loop then store to a vector called generation size. We
-%then use another loop to convert bucketmatrix to bucketfractions. 
 
+%WARNING: see issue #17, there is a problem with this method.
 for i=1:rows
-    for j=1:cols
-        datasize =
+    for j=1:buckets
+        bucketfractions(i,j) = (bucketmatrix(i,j)/rows)*255; %255 is hex code as explained aboves
+    end
+end
+
+disp('End of program');
