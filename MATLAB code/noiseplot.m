@@ -7,42 +7,13 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-filename = input('What is the filename for the data including extension?: ');
+%filename = input('What is the filename for the data including extension?: ');
+filename = 'test.csv';
 datamatrix = csvread(filename);
-
-%We have now read in the data to the matrix datamatrix. Next we want to
-%plot these. Going down in datamatrix (increasing rows) means a new
-%discrete value of time. Going across in a row are all the heights in that
-%time period.
-
-i = 1; %counter for while expression
-
 [rows, cols] = size(datamatrix); %rows is number of rows etc
-hold on; %Ensure everything is plotted on one graph
-
-%Now use two while loops to plot a graph. There is a problem with this method
-%described in issue #18.
-while i<=rows
-    j=1;
-    while j<=cols
-        plottingdata(j) = datamatrix(i,j);
-        %plot(datamatrix(i,j), i-1, 'o'); %Use i-1 so first time step is t=0
-        j=j+1;
-    end
-    plot(i-1, plottingdata, '-o');
-    clear plottingdata;
-    i=i+1;
-end
-
-
-
-xlabel('Time');
-ylabel('x');
-hold off;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% The basic functionality of plotting the value x (height in our example)
-% vs time is now implemented. We now want to start implementing histogram
+% Data has been read in. We now want to start implementing histogram
 % functionality. To do this, we examine each generation and work out how
 % many fit in a 'bucket'. We know that the range of values is from -pi to
 % pi so we can ask the user how many buckets they want and divide the range
@@ -101,12 +72,16 @@ end
 %WARNING: see issue #17, there is a problem with this method.
 for i=1:rows
     for j=1:buckets
-        bucketfractions(i,j) = (bucketmatrix(i,j)/rows)*255; %255 is hex code as explained above
+        bucketfractions(j,i) = (bucketmatrix(i,j)/cols)*255; %255 is hex code as explained above
     end
 end
 
 %We now need to start graphing these colours
-
-
-
+%ia=ones(200,200).*255;
+ imshow(bucketfractions);
+% 
+% [fractionrows, fractioncols] = size(bucketfractions);
+% ia(1:fractionrows, 1:fractioncols) = bucketfractions;
+% 
+% imshow(ia(1:fractionrows, 1:fractioncols));
 disp('End of program');
