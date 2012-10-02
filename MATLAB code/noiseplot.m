@@ -87,6 +87,17 @@ for i=1:rows
     end
 end
 
+%We now have the number that fits into every bucket for all generations. We
+%hence want to convert these to a grayscale value. This can be done by
+%working out the fraction of the total that are in each bucket for the
+%generation and then multiplying by 255. This means that if a bucket
+%contains all the numbers for a generation, its hex code will be 255 and so
+%it will be white. Conversely, if it contains none then its hex code will
+%be 000 and so black. The darker a bucket is, the emptier it is.
+%To do this, we will calculate the size of each generation (taken from 
+%datamatrix) in a loop then store to a vector called generation size. We
+%then use another loop to convert bucketmatrix to bucketfractions. 
 
-
-%To get greyscale value, work out percentage and times by 255
+for i=1:rows
+    for j=1:cols
+        datasize =
