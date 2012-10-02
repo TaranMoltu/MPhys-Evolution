@@ -40,4 +40,4 @@ double random::gaussian(double sd, double mean) //Based on implementation by Dr 
 	return( mean + z1 * sd ); //To get any mean/sd we scale wrt sd and transform wrt mean (source: http://en.literateprograms.org/Box-Muller_transform_%28C%29)
 }
 
-random maths::roll;
+maths::random maths::roll;

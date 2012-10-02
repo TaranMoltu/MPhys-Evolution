@@ -21,6 +21,7 @@ class gene {
 		virtual void mutate()=0; // how does this gene mutate?
 		virtual bool selection()=0; //may need to be numerical later- how is this gene selected
 		virtual std::string info()const=0;
+		virtual double getValue() const=0;
 		
 	
 	};
@@ -39,6 +40,8 @@ class height : public gene{
 		virtual void mutate();
 		virtual bool selection();
 		virtual std::string info() const;
+
+		virtual double getValue() const;
 
 	};
 
@@ -76,6 +79,8 @@ class entity: public genome {
 	public:
 		entity(const double lifetime=1.0, const genome &genomeSource = genome()  ): genome(genomeSource), lifetime(lifetime) {}
 		virtual ~entity(){}
+
+		std::string log() const;
 
 		entity* clone() const; //factory for entities
 

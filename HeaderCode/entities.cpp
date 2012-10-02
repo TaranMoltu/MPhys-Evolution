@@ -83,6 +83,10 @@ gene* genome::operator()(const unsigned int i) const{//override brackets to give
 	}
 }
 
+double height::getValue()const{
+	return value;
+}
+
 /*============================================================================
  * Printing
  *========================================================================== */
@@ -118,6 +122,13 @@ std::ostream & org::operator<<(std::ostream &os, const entity &source){
 	os << "---------------------------------------------"<<std::endl;
 
 	return os;
+
+}
+
+std::string entity::log() const{
+	std::stringstream out;
+	out << genes[0]->getValue();
+	return out.str();
 
 }
 
