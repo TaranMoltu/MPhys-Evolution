@@ -32,34 +32,23 @@ bucketsize = (2*pi)/buckets;
 %Declare max size for first bucket outside loop
 bucketmax(1)= (-1*pi)+bucketsize;
 
-%Note that this loop may cause bucketmax(buckets), the last bucket to be
-%greater than pi due to rounding errors - this is not a huge problem
-for n=2:buckets
-   bucketmax(n) = bucketmax(n-1)+bucketsize;
-end
-
 %Now with the size of each bucket known we need to start the count of the
 %number of values that fall in each bucket per generation.
 %bucketmatrix is a matrix that has as many across as there are buckets and
 %down as generations. The number in each cell represents the number of
 %cells fitting in the range defined in bucketmax. Going across means bigger
 %range, going down means further time step.
-bucketmatrix = zeros(rows, buckets);
+bucketmatrix = zeros(buckets+1,rows);
 for i=1:rows
     for j=1:cols
-        for k=1:buckets
-            if k==1
-                if -1*pi<=datamatrix(i,j) && datamatrix(i,j)<bucketmax(k)
-                    bucketmatrix(i,k) = bucketmatrix(i,k)+1;
-                end
-            else
-                if bucketmax(k-1)<=datamatrix(i,j) && datamatrix(i,j)<bucketmax(k);
-                    bucketmatrix(i,k)= bucketmatrix(i,k)+1;
-                end
-            end
+        if datamatrix(i,j)~=0
+            bucket = floor((datamatrix(i,j)+pi)/bucketsize)+1;
+            bucketmatrix( bucket,i) = bucketmatrix( bucket,i)+1;
         end
     end
 end
+
+disp('sorted');
 
 %We now have the number that fits into every bucket for all generations. We
 %hence want to convert these to a grayscale value. This can be done by
@@ -69,16 +58,20 @@ end
 %it will be white. Conversely, if it contains none then its hex code will
 %be 000 and so black. The darker a bucket is, the emptier it is.
 
+%Work around for issue 17: work out how many are alive in each generation
+%using another for loop
+numberalive = max(bucketmatrix);
+bignumberalive=zeros(buckets+1,rows);
 %WARNING: see issue #17, there is a problem with this method.
-for i=1:rows
-    for j=1:buckets
-        bucketfractions(j,i) = (bucketmatrix(i,j)/cols)*255; %255 is hex code as explained above
-    end
+for i=1:buckets
+    bignumberalive(i,:)=numberalive;
 end
+bucketfractions = bucketmatrix./bignumberalive.*255;
 
 %We now need to start graphing these colours
 %ia=ones(200,200).*255;
- imshow(bucketfractions);
+output = uint8(bucketfractions);
+ imwrite(output, 'output.png', 'png');
 % 
 % [fractionrows, fractioncols] = size(bucketfractions);
 % ia(1:fractionrows, 1:fractioncols) = bucketfractions;
