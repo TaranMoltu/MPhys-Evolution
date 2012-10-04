@@ -2,7 +2,8 @@
  * entities.cpp
  *
  *  Created on: 27 Sep 2012
- *      Author: Joshua
+ *      Author: Joshua Warburton
+ *  Purpose: contains all functions for entities.h except entity::death()
  */
 #include "../Headers/entities.h"
 #include "../Headers/random.h"

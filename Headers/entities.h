@@ -11,26 +11,26 @@
 
 namespace org{
 
-class gene {
+class gene { //gene is an abstract base class for an organisms genes
 	
-	friend std::ostream & operator<<(std::ostream &os, const gene &source);
+	friend std::ostream & operator<<(std::ostream &os, const gene &source); //overloads <<operator
 
 	public:
 
 		virtual gene* clone()const=0;//factory
-		virtual ~gene(){};
+		virtual ~gene(){}; //destructor
 		virtual void mutate()=0; // how does this gene mutate?
 		virtual bool selection()=0; //may need to be numerical later- how is this gene selected
-		virtual std::string info()const=0;
-		virtual double getValue() const=0;
+		virtual std::string info()const=0; //function for returning key details on an organism
+		virtual double getValue() const=0; //returns genes value eg returns height value for height etc
 		
 	
 	};
 	
-class height : public gene{
+class height : public gene{ //height is an implementation of gene
 	protected:
-		double value;
-		double standardDeviation;
+		double value; //how tall organism is
+		double standardDeviation; //for purpose of mutation function
 		double min,max; //range of possible values
 		double rate; //rate of mutation
 
@@ -46,7 +46,7 @@ class height : public gene{
 
 	};
 
-class genome{
+class genome{ //genome is a collection of all the genes an organism has rather like DNA
 
 	friend std::ostream & operator << (std::ostream &os, const genome &source);
 
@@ -70,7 +70,7 @@ public:
 	
 	};
 
-class entity: public genome {
+class entity: public genome { //An organism which is made up of genomes. Derivation means genome is implied rather than needing to be declared in protected
 	friend std::ostream & operator << (std::ostream &os, const entity &source);
 	protected:
 
@@ -81,17 +81,17 @@ class entity: public genome {
 		entity(const double lifetime=1.0, const genome &genomeSource = genome()  ): genome(genomeSource), lifetime(lifetime) {}
 		virtual ~entity(){}
 
-		std::string log() const;
+		std::string log() const; //outputs information on a gene
 
 		entity* clone() const; //factory for entities
 
 		entity* asex(); //reproduce asexually.
 
-		bool death(double evFactor);
+		bool death(double evFactor); //decides whether or not the entity of mail will elate above death
 
 };
 
-class environment{
+class environment{ //collection of entities
 	protected:
 		std::list<entity*> entities;
 		std::string logFile;
@@ -102,9 +102,9 @@ class environment{
 		~environment();
 		void addEntity(entity* toAdd);
 
-		void tick();
-		void log()const;
-		void death();
+		void tick(); //the time is going, ticking on and on, everybody's rushing. Note by rushing I mean either dying or evolving
+		void log()const; //outputs data on gene
+		void death(); //decides whether organism dies or not due to roll of die - not approved by ethics committee
 
 	};
 

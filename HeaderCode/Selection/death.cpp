@@ -1,3 +1,12 @@
+/*
+ * death.cpp
+ *
+ *  Created on: 27 Sep 2012
+ *      Author: Joshua Warburton
+ *  Purpose: decides whether an organism dies or lives - please don't
+ *  tell the university ethics committee that we are doing this by a
+ *  dice roll. They probably wouldn't be impressed.
+ */
 #include "../../Headers/random.h"
 #include "../../Headers/entities.h"
 
