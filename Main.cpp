@@ -17,7 +17,7 @@ int main(){
 	std::cout << "Evolving! (this could take some time)"<<std::endl;
 	org::environment test;
 	double done;
-	unsigned int loops(30);
+	unsigned int loops(3000);
 	for(unsigned int i(0); i<loops; i++){
 		test.tick();
 		std::cout <<"\r|";

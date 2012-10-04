@@ -107,13 +107,12 @@ void environment::tick(){
 		end = entities.end();
 		entity* parent;
 		entity* child;
+		death();
 		for (current=entities.begin(); current!=end; ++current){
 			parent = (*current);
 			child=parent->asex();
 			this->addEntity(child);
-			if(parent->death(0.0)){
-				current=entities.erase(current);
-			}
+			//std::cout<<"birth!"<<std::endl;
 		}
 	this->log();
 }

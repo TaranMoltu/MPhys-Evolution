@@ -95,13 +95,16 @@ class environment{
 	protected:
 		std::list<entity*> entities;
 		std::string logFile;
+		unsigned int capacity;
+
 	public:
-		environment(std::string log="log.dat"): logFile(log){entity* temp= new entity; addEntity(temp);}
+		environment(std::string log="log.dat"): logFile(log), capacity(2000) {entity* temp= new entity; addEntity(temp);}
 		~environment();
 		void addEntity(entity* toAdd);
 
 		void tick();
 		void log()const;
+		void death();
 
 	};
 
