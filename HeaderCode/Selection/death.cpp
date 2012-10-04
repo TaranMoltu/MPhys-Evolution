@@ -9,7 +9,6 @@
  */
 #include "../../Headers/random.h"
 #include "../../Headers/entities.h"
-
 using namespace org;
 
 void environment::death(){
@@ -17,7 +16,7 @@ void environment::death(){
 	double chances(0);
 	double x(0);
 	double y(0);
-	double C(4);
+	double C(0.059);
 	double difference(0);
 
 	for (current=entities.begin(); current!=entities.end(); ++current){
@@ -26,8 +25,7 @@ void environment::death(){
 		for (currentb=entities.begin(); currentb!=entities.end(); ++currentb){
 			if (currentb!=current){
 				y=(**currentb)(0)->getValue();
-				if(fabs(x-y)>fabs(y-x))difference = fabs(y-x);
-				else difference = fabs(x-y);
+				fabs(x-y)>fabs(y-x) ? difference = fabs(y-x) : difference = fabs(x-y);
 				//std::cout << difference<<std::endl;
 				chances +=exp(-pow(difference,2.0)/(2*pow(C,2.0)));
 				//std::cout<<"c: "<<chances<<std::endl;

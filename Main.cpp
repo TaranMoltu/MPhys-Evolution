@@ -17,9 +17,9 @@ int main(){
 
 	std::cout.precision(3);
 	std::cout << "Evolving! (this could take some time)"<<std::endl;
-	org::environment test(1.0/5000.0); //Create an environment with default constructor => 2000 entities
+	org::environment test(1.0/500.0); //Create an environment with default constructor => 2000 entities
 	double done;
-	unsigned int loops(3000); //Loops is the number of generations - can change safely
+	unsigned int loops(100); //Loops is the number of generations - can change safely
 	for(unsigned int i(0); i<loops; i++){ //for loop that writes the progress bar
 		test.tick(); //Ticks forward a generation allowing death or reproduction for all entities in test
 		std::cout <<"\r|";

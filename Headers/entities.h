@@ -9,6 +9,8 @@
 #include<cmath>
 #include<fstream>
 
+#include <thread>
+
 namespace org{
 
 class gene { //gene is an abstract base class for an organisms genes
@@ -36,7 +38,7 @@ class height : public gene{ //height is an implementation of gene
 
 	public:
 		virtual gene* clone()const;
-		height(const double &height=1.0, const double &sd=0.5, const double &rate1=0.01);
+		height(const double &height=1.0, const double &sd=0.01, const double &rate1=0.01);
 		~height();
 		virtual void mutate();
 		virtual bool selection();
