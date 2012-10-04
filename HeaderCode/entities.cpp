@@ -98,6 +98,10 @@ double height::getValue()const{
 	return value;
 }
 
+unsigned int environment::getSize()const{
+	return entities.size();
+}
+
 /*============================================================================
  * tick
  *========================================================================== */

@@ -17,7 +17,7 @@ void environment::death(){
 	double chances(0);
 	double x(0);
 	double y(0);
-	double C(0.01);
+	double C(4);
 	double difference(0);
 
 	for (current=entities.begin(); current!=entities.end(); ++current){

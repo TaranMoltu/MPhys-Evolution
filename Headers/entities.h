@@ -95,16 +95,18 @@ class environment{ //collection of entities
 	protected:
 		std::list<entity*> entities;
 		std::string logFile;
-		unsigned int capacity;
+		double capacity;
 
 	public:
-		environment(std::string log="log.dat"): logFile(log), capacity(2000) {entity* temp= new entity; addEntity(temp);}
+		environment(double cap=1/100,std::string log="log.dat"): logFile(log), capacity(cap) {entity* temp= new entity; addEntity(temp);}
 		~environment();
 		void addEntity(entity* toAdd);
 
 		void tick(); //the time is going, ticking on and on, everybody's rushing. Note by rushing I mean either dying or evolving
 		void log()const; //outputs data on gene
 		void death(); //decides whether organism dies or not due to roll of die - not approved by ethics committee
+
+		unsigned int getSize()const;
 
 	};
 
