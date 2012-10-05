@@ -9,8 +9,6 @@
 #include<cmath>
 #include<fstream>
 
-#include <thread>
-
 namespace org{
 
 class gene { //gene is an abstract base class for an organisms genes
@@ -59,6 +57,7 @@ public:
 	void addGene(gene* toCopy);
 
 	genome();
+	genome(gene* initial);
 	genome(const genome &source);
 
 	~genome();
@@ -100,7 +99,7 @@ class environment{ //collection of entities
 		double capacity;
 
 	public:
-		environment(double cap=1/100,std::string log="log.dat"): logFile(log), capacity(cap) {entity* temp= new entity; addEntity(temp);}
+		environment(double cap=1.0/100.0,std::string log="log.dat"): logFile(log), capacity(cap) {entity* temp= new entity; addEntity(temp);}
 		~environment();
 		void addEntity(entity* toAdd);
 

@@ -18,8 +18,13 @@ int main(){
 	std::cout.precision(3);
 	std::cout << "Evolving! (this could take some time)"<<std::endl;
 	org::environment test(1.0/500.0); //Create an environment with default constructor => 2000 entities
+	org::entity* temp;
+	for(unsigned int i(0);i<5000;i++){
+		temp= new org::entity(1, org::genome(&org::height(maths::roll.flat(-maths::pi,+maths::pi))));
+		test.addEntity(temp);
+	}
 	double done;
-	unsigned int loops(100); //Loops is the number of generations - can change safely
+	unsigned int loops(10000); //Loops is the number of generations - can change safely
 	for(unsigned int i(0); i<loops; i++){ //for loop that writes the progress bar
 		test.tick(); //Ticks forward a generation allowing death or reproduction for all entities in test
 		std::cout <<"\r|";

@@ -27,6 +27,11 @@ genome::genome(){
 	 genes.push_back(temp);
 }
 
+genome::genome(gene* initial){
+	 gene* temp = initial->clone();
+	 genes.push_back(temp);
+}
+
 genome::genome(const genome &source){
 	for(unsigned int i(0);i<source.getSize();++i){
 		genes.push_back(source(i)->clone());

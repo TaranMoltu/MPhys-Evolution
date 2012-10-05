@@ -16,7 +16,7 @@ void environment::death(){
 	double chances(0);
 	double x(0);
 	double y(0);
-	double C(0.059);
+	double C(0.9);
 	double difference(0);
 
 	for (current=entities.begin(); current!=entities.end(); ++current){
@@ -25,7 +25,7 @@ void environment::death(){
 		for (currentb=entities.begin(); currentb!=entities.end(); ++currentb){
 			if (currentb!=current){
 				y=(**currentb)(0)->getValue();
-				fabs(x-y)>fabs(y-x) ? difference = fabs(y-x) : difference = fabs(x-y);
+				fabs(x-y)>maths::pi ? difference = 2 * maths::pi - fabs(y-x) : difference = fabs(x-y);
 				//std::cout << difference<<std::endl;
 				chances +=exp(-pow(difference,2.0)/(2*pow(C,2.0)));
 				//std::cout<<"c: "<<chances<<std::endl;
