@@ -8,7 +8,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %filename = input('What is the filename for the data including extension?: ');
-filename = 'log.dat';
+filename = 'invasion.dat';
 datamatrix = csvread(filename);
 [rows, cols] = size(datamatrix); %rows is number of rows etc
 

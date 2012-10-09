@@ -24,7 +24,7 @@ int main(){
 		test.addEntity(temp);
 	}
 	double done;
-	unsigned int loops(10000); //Loops is the number of generations - can change safely
+	unsigned int loops(1000); //Loops is the number of generations - can change safely
 	for(unsigned int i(0); i<loops; i++){ //for loop that writes the progress bar
 		test.tick(); //Ticks forward a generation allowing death or reproduction for all entities in test
 		std::cout <<"\r|";
