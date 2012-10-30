@@ -19,9 +19,14 @@ int main(){
 	std::cout << "Evolving! (this could take some time)"<<std::endl;
 	org::environment test(1.0/500.0); //Create an environment with default constructor => 2000 entities
 	org::entity* temp;
+	org::gene* prototypeGene;
+
 	for(unsigned int i(0);i<5000;i++){
-		temp= new org::entity(1, org::genome(&org::height(maths::roll.flat(-maths::pi,+maths::pi))));
+		prototypeGene =  new org::height(maths::roll.flat(-maths::pi,+maths::pi));
+
+		temp= new org::entity(prototypeGene);
 		test.addEntity(temp);
+		delete prototypeGene;
 	}
 	double done;
 	unsigned int loops(1000); //Loops is the number of generations - can change safely
