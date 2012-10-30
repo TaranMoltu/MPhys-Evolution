@@ -80,6 +80,7 @@ class entity: public genome { //An organism which is made up of genomes. Derivat
 
 	public:
 		entity(const double lifetime=1.0, const genome &genomeSource = genome()  ): genome(genomeSource), lifetime(lifetime) {}
+		entity(gene* &gene, const double lifetime=1.0): genome(gene), lifetime(lifetime) {}
 		virtual ~entity(){}
 
 		std::string log() const; //outputs information on a gene
