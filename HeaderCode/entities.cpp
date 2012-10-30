@@ -53,6 +53,9 @@ genome genome::operator=(const genome &source){
 	}
 	return *this;
 }
+environment::environment(double cap, double c, std::string log):
+		logFile(log), capacity(cap),  reach(c){
+		}
 
 
 /*============================================================================

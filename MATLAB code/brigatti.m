@@ -8,7 +8,8 @@
 
 clear all; %Let's start with a fresh slate
 
-filename = 'log.dat';
+[FileName,PathName,FilterIndex] = uigetfile();
+filename = fullfile(PathName, FileName);
 datamatrix = csvread(filename);
 [rows, cols] = size(datamatrix); %rows is number of rows etc
 
@@ -36,4 +37,4 @@ disp('sorted');
 
 %Now plot for a single generation
 
-plot(bucketmax, bucketmatrix(1:buckets,500)) %500th generation - no reason why
+plot(bucketmax, bucketmatrix(1:buckets,rows)) %last generation

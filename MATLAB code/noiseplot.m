@@ -7,9 +7,15 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%filename = input('What is the filename for the data including extension?: ');
-filename = 'invasion.dat';
-datamatrix = csvread(filename);
+[FileName,PathName,FilterIndex] = uigetfile();
+file = fullfile(PathName, FileName);
+
+% We need to import the data using our own custom reader since MATLAB can't
+% cope with files of the size we are talking using its csvread function.
+% Instead, let us write our own custom solution using textread. First,
+% count the number of lines
+
+datamatrix = csvread(file);
 [rows, cols] = size(datamatrix); %rows is number of rows etc
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -39,11 +45,11 @@ bucketmax(1)= (-1*pi)+bucketsize;
 %cells fitting in the range defined in bucketmax. Going across means bigger
 %range, going down means further time step.
 bucketmatrix = zeros(buckets+1,rows);
-for i=1:rows
-    for j=1:cols
-        if datamatrix(i,j)~=0
-            bucket = floor((datamatrix(i,j)+pi)/bucketsize)+1;
-            bucketmatrix( bucket,i) = bucketmatrix( bucket,i)+1;
+for j=1:rows
+    for i=1:cols
+        if datamatrix(j,i)~=0
+            bucket = floor((datamatrix(j,i)+pi)/bucketsize)+1;
+            bucketmatrix( bucket,j) = bucketmatrix( bucket,j)+1;
         end
     end
 end
@@ -62,7 +68,7 @@ disp('sorted');
 %using another for loop
 numberalive = max(bucketmatrix);
 bignumberalive=zeros(buckets+1,rows);
-%WARNING: see issue #17, there is a problem with this method.
+
 for i=1:buckets
     bignumberalive(i,:)=numberalive;
 end
@@ -71,7 +77,8 @@ bucketfractions = bucketmatrix./bignumberalive.*255;
 %We now need to start graphing these colours
 %ia=ones(200,200).*255;
 output = uint8(bucketfractions);
- imwrite(output, 'output.png', 'png');
+[~, name, ~] = fileparts(FileName);
+ imwrite(output, fullfile(PathName, [name '.png']), 'png');
 % 
 % [fractionrows, fractioncols] = size(bucketfractions);
 % ia(1:fractionrows, 1:fractioncols) = bucketfractions;

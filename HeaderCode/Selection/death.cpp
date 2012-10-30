@@ -13,34 +13,73 @@ using namespace org;
 
 void environment::death(){
 	std::list<entity*>::iterator current, currentb;
-	double chances(0);
-	double x(0);
-	double y(0);
-	double C(0.9);
+	//double chances(0);
+	double x(0), y(0), normalisation(capacity/(std::sqrt(2.0*maths::pi)*reach));
+	double* chances = new double[getSize()];
+	unsigned int i(0);
+	unsigned int size(getSize());
+
+
 	double difference(0);
 
 	for (current=entities.begin(); current!=entities.end(); ++current){
-		chances =0.0;
+		if(i>=size){
+			std::cout<< "("<<i<<"/"<<size<<") break!"<<std::endl;
+			break;
+		}
 		x=(**current)(0)->getValue();
 		for (currentb=entities.begin(); currentb!=entities.end(); ++currentb){
 			if (currentb!=current){
 				y=(**currentb)(0)->getValue();
-				fabs(x-y)>maths::pi ? difference = 2 * maths::pi - fabs(y-x) : difference = fabs(x-y);
+				fabs(x-y)>maths::pi ? difference = 2.0 * maths::pi - fabs(y-x) : difference = fabs(x-y);
 				//std::cout << difference<<std::endl;
-				chances +=exp(-pow(difference,2.0)/(2*pow(C,2.0)));
-				//std::cout<<"c: "<<chances<<std::endl;
+				*(chances+i) +=exp(-1.0*pow(difference,2.0)/(2.0*pow(reach,2.0)));
+				//std::cout<<"c: "<<chances<<std::end;
 			}
 		}
 		//std::cout<<"chances: "<<chances<<std::endl;
-		chances=chances * (double)capacity;
-		if((*current)->death(chances)){
-			current=entities.erase(current);
+		*(chances+i) *=normalisation;
+		if((*current)->death(*(chances+i))){
+			current=--(entities.erase(current));
 		}
+		i++;
+
 	}
+
+	//std::fstream logStream;
+	//logStream.open("chances.log", std::ios::out | std::ios::app);
+	//logStream << "("<< i <<"/"<< size<<")";
+	//for (unsigned int j(0); j<getSize(); ++j){
+	//	if (j==0) logStream << *(chances+j);
+	//	else logStream << ","<<*(chances+j);
+	//}
+	//
+	//logStream <<std::endl;
+	//logStream.close();
+
+	delete[] chances;
 }
 
+/*
+void environment::death(){
+	std::list<entity*>::iterator current;
+
+	unsigned int size(getSize());
+
+	double difference(0);
+
+	for (current=entities.begin(); current!=entities.end(); ++current){
+
+		if((*current)->death(size*capacity)){
+			current=--(entities.erase(current));
+		}
+
+	}
+
+}
+*/
 bool entity::death(double evFactor){
-	if (maths::roll.flat(0,1)>evFactor) return false;
+	if (maths::roll.flat(0.0,1.0)>evFactor) return false;
 	else{
 	delete this;
 	return true;

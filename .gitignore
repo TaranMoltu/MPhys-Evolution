@@ -4,3 +4,9 @@ Debug
 .project
 .cproject
 .settings
+Release/*
+Release
+*.asv
+MATLAB Code/fwhm.m
+log.dat
+chances.log
