@@ -16,8 +16,8 @@ void environment::death(){
 	//double chances(0);
 	double x(0), y(0), normalisation(capacity/(std::sqrt(2.0*maths::pi)*reach));
 	double* chances = new double[getSize()];
-	unsigned int i(0);
-	unsigned int size(getSize());
+	unsigned i(0), j(0);
+	unsigned size(getSize());
 
 
 	double difference(0);
@@ -28,7 +28,9 @@ void environment::death(){
 			break;
 		}
 		x=(**current)(0)->getValue();
-		for (currentb=entities.begin(); currentb!=entities.end(); ++currentb){
+		j=0;
+		for (currentb=--entities.end(); currentb!=entities.begin(); --currentb){
+			if (j>2000) {*(chances+i) *=(double)size/(double)j; break;}
 			if (currentb!=current){
 				y=(**currentb)(0)->getValue();
 				fabs(x-y)>maths::pi ? difference = 2.0 * maths::pi - fabs(y-x) : difference = fabs(x-y);
@@ -36,6 +38,7 @@ void environment::death(){
 				*(chances+i) +=exp(-1.0*pow(difference,2.0)/(2.0*pow(reach,2.0)));
 				//std::cout<<"c: "<<chances<<std::end;
 			}
+		j++;
 		}
 		//std::cout<<"chances: "<<chances<<std::endl;
 		*(chances+i) *=normalisation;
