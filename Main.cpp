@@ -24,10 +24,12 @@ int main(){
 	std::cout << "Evolving! (this could take some time)"<<std::endl;
 	org::environment test(1.0/carryingCapacity,reach,fileName.str()); //Create an environment with carrying capacity and range.
 
-	for(unsigned int i(0);i<5000;i++){
-
 	org::gene* prototypeGene;
 	org::entity* temp;
+
+	for(unsigned int i(0);i<5000;i++){
+
+
 
     prototypeGene =  new org::height(maths::roll.flat(-maths::pi,+maths::pi));
     temp= new org::entity(prototypeGene);
