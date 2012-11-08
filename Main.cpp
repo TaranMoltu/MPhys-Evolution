@@ -27,6 +27,7 @@ int main(){
 	for(unsigned int i(0);i<5000;i++){
 
 	org::gene* prototypeGene;
+	org::entity* temp;
 
     prototypeGene =  new org::height(maths::roll.flat(-maths::pi,+maths::pi));
     temp= new org::entity(prototypeGene);
