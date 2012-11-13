@@ -15,8 +15,8 @@ void environment::death(){
 	std::list<entity*>::iterator current, currentb;
 	double normalisation(capacity/(std::sqrt(2.0*maths::pi)*reach));
 	double* chances = new double[getSize()];
-	unsigned int i(0);
-	unsigned int size(getSize());
+	unsigned i(0), j(0);
+	unsigned size(getSize());
 
 
 	double difference(0);
@@ -26,6 +26,7 @@ void environment::death(){
 			std::cout<< "("<<i<<"/"<<size<<") break!"<<std::endl;
 			break;
 		}
+
 		for (currentb=entities.begin(); currentb!=entities.end(); ++currentb){
 			if (currentb!=current){
 				difference=(*current)->distance(**currentb);
@@ -33,6 +34,7 @@ void environment::death(){
 				*(chances+i) +=exp(-1.0*pow(difference,2.0)/(2.0*pow(reach,2.0)));
 				//std::cout<<"c: "<<chances<<std::end;
 			}
+		j++;
 		}
 
 		*(chances+i) *=normalisation;

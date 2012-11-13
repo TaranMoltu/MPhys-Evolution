@@ -11,6 +11,14 @@
 
 int main(){
 
+	double carryingCapacity(20000);
+	double standDeviation(0.01); //variation in height
+	double reach(4.0);
+	unsigned int loops(2000); //Loops is the number of generations - can change safely
+
+	std::stringstream fileName;
+	fileName << "k=" << carryingCapacity << ",c=" << reach << ",sigma="<< standDeviation <<",loops="<< loops <<".dat";
+
 	std::cout.precision(3);
 	std::cout << "Evolving! (this could take some time)"<<std::endl;
 	org::environment test(10.0,1.0); //Create an environment with carrying capacity and range.
@@ -25,7 +33,7 @@ int main(){
 		test.addEntity(temp);
 	}
 	double done;
-	unsigned int loops(1000); //Loops is the number of generations - can change safely
+
 	for(unsigned int i(0); i<loops; i++){ //for loop that writes the progress bar
 		test.tick(); //Ticks forward a generation allowing death or reproduction for all entities in test
 		std::cout <<"\r|";
