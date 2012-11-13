@@ -8,25 +8,21 @@
  */
 
 #include "Headers/entities.h"
-#include "Headers/random.h"
 
 int main(){
 
 	std::cout.precision(3);
 	std::cout << "Evolving! (this could take some time)"<<std::endl;
-	org::environment test(1.0/20000.0,4.0); //Create an environment with carrying capacity and range.
+	org::environment test(10.0,1.0); //Create an environment with carrying capacity and range.
 	org::entity* temp;
+	org::genome* prototype;
+	//double standDeviation(0.01); //variation in height
 
-	double standDeviation(0.01); //variation in height
 
-	org::gene* prototypeGene;
-
-	for(unsigned int i(0);i<5000;i++){
-		prototypeGene =  new org::height(maths::roll.flat(-maths::pi,+maths::pi));
-
-		temp= new org::entity(prototypeGene);
+	for(unsigned int i(0);i<10;i++){
+		prototype=new org::genome(8);
+		temp= new org::entity(0,*prototype);
 		test.addEntity(temp);
-		delete prototypeGene;
 	}
 	double done;
 	unsigned int loops(1000); //Loops is the number of generations - can change safely

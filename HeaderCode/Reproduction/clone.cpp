@@ -12,13 +12,13 @@ using namespace org;
 /*============================================================================
  * Factories
  *========================================================================== */
-gene* height::clone()const{
+/*gene* height::clone()const{
 	gene* temp = new height(this->value,this->standardDeviation,this->rate);
 	return temp;
-}
+}*/
 
 entity* entity::clone()const{
-	entity* temp = new entity(this->lifetime,*this);
+	entity* temp = new entity(this->position,*this);
 	return temp;
 }
 
@@ -28,7 +28,7 @@ entity* entity::clone()const{
 
 entity* entity::asex(){
 	entity* temp = this->clone();
-	temp->mutate();
+	temp->mutatePoint();
 	return temp;
 }
 

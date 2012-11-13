@@ -8,6 +8,7 @@
 #include<list>
 #include<cmath>
 #include<fstream>
+#include "random.h"
 
 namespace org{
 
@@ -27,7 +28,7 @@ class gene { //gene is an abstract base class for an organisms genes
 	
 	};
 	
-class height : public gene{ //height is an implementation of gene
+/*class height : public gene{ //height is an implementation of gene
 	protected:
 		double value; //how tall organism is
 		double standardDeviation; //for purpose of mutation function
@@ -44,20 +45,20 @@ class height : public gene{ //height is an implementation of gene
 
 		virtual double getValue() const;
 
-	};
+	};*/
 
 class genome{ //genome is a collection of all the genes an organism has rather like DNA
 
 	friend std::ostream & operator << (std::ostream &os, const genome &source);
 
 protected:
-	std::vector<gene*> genes;
+	std::vector<int> base2Genome;
 
 public:
-	void addGene(gene* toCopy);
+	//void addGene(gene* toCopy);
 
 	genome();
-	genome(gene* initial);
+	genome(const unsigned length);
 	genome(const genome &source);
 
 	~genome();
@@ -65,31 +66,34 @@ public:
 	unsigned int getSize()const;
 
 	genome operator=(const genome &source);
-	gene* operator()(const unsigned int i) const;
+	int operator()(const unsigned int i) const;
 
-	void mutate();
+	void mutatePoint(int position=-1);
 	
+	unsigned distance(genome &compare) const;
+
 	};
 
 class entity: public genome { //An organism which is made up of genomes. Derivation means genome is implied rather than needing to be declared in protected
 	friend std::ostream & operator << (std::ostream &os, const entity &source);
 	protected:
 
-		double lifetime;
-
+		double position;
 
 	public:
-		entity(const double lifetime=1.0, const genome &genomeSource = genome()  ): genome(genomeSource), lifetime(lifetime) {}
-		entity(gene* &gene, const double lifetime=1.0): genome(gene), lifetime(lifetime) {}
+		entity(const double pos=0.0,genome prototype=genome()): genome(prototype), position(pos) {}
 		virtual ~entity(){}
 
 		std::string log() const; //outputs information on a gene
+		double getPosition() const;
+		genome getGenome()const;
 
 		entity* clone() const; //factory for entities
 
 		entity* asex(); //reproduce asexually.
 
 		bool death(double evFactor); //decides whether or not the entity of mail will elate above death
+		unsigned distance(entity &compare) const;
 
 };
 
@@ -99,9 +103,11 @@ class environment{ //collection of entities
 		std::string logFile;
 		double capacity;
 		double reach; //c
+		double minPosition;
+		double maxPosition;
 
 	public:
-		environment(double cap=1.0/100.0, double c=0.9, std::string log="log.dat");
+		environment(double cap=100.0, double c=0.9, std::string log="log.dat");
 		~environment();
 		void addEntity(entity* toAdd);
 

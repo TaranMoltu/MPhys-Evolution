@@ -10,26 +10,17 @@
 
 using namespace org;
 
-void genome::mutate(){
-	std::vector<gene*>::const_iterator current,begin,end;
-	begin = genes.begin();
-	end = genes.end();
+void genome::mutatePoint(int position){
+	std::vector<int>::iterator begin;
+	begin = base2Genome.begin();
 
-	for (current=begin; current<end;++current){//mutate all genes
-		(*current)->mutate();
-	}
+
+	if (position <0 || position > (int)this->getSize()) position=maths::roll.flat(0,this->getSize());
+
+	*(begin+position)=maths::roll.bit();
+
+	//for (current=begin; current<end;++current){//mutate all genes
+	//	(*current)->mutate();
+	//}
 }
 
-void height::mutate(){
-	double mean = value;
-	double sd= standardDeviation;
-
-	value=maths::roll.gaussian(sd,mean);
-	while(value  > max){
-		value = value -(max-min);
-	}
-
-	while(value  < min){
-		value = value +(max-min);
-	}
-}

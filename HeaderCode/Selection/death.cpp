@@ -13,8 +13,7 @@ using namespace org;
 
 void environment::death(){
 	std::list<entity*>::iterator current, currentb;
-	//double chances(0);
-	double x(0), y(0), normalisation(capacity/(std::sqrt(2.0*maths::pi)*reach));
+	double normalisation(capacity/(std::sqrt(2.0*maths::pi)*reach));
 	double* chances = new double[getSize()];
 	unsigned int i(0);
 	unsigned int size(getSize());
@@ -27,18 +26,17 @@ void environment::death(){
 			std::cout<< "("<<i<<"/"<<size<<") break!"<<std::endl;
 			break;
 		}
-		x=(**current)(0)->getValue();
 		for (currentb=entities.begin(); currentb!=entities.end(); ++currentb){
 			if (currentb!=current){
-				y=(**currentb)(0)->getValue();
-				fabs(x-y)>maths::pi ? difference = 2.0 * maths::pi - fabs(y-x) : difference = fabs(x-y);
+				difference=(*current)->distance(**currentb);
 				//std::cout << difference<<std::endl;
 				*(chances+i) +=exp(-1.0*pow(difference,2.0)/(2.0*pow(reach,2.0)));
 				//std::cout<<"c: "<<chances<<std::end;
 			}
 		}
-		//std::cout<<"chances: "<<chances<<std::endl;
+
 		*(chances+i) *=normalisation;
+		//std::cout<<"chances: "<<*(chances+i)<<std::endl;
 		if((*current)->death(*(chances+i))){
 			current=--(entities.erase(current));
 		}
@@ -46,16 +44,16 @@ void environment::death(){
 
 	}
 
-	//std::fstream logStream;
-	//logStream.open("chances.log", std::ios::out | std::ios::app);
-	//logStream << "("<< i <<"/"<< size<<")";
-	//for (unsigned int j(0); j<getSize(); ++j){
-	//	if (j==0) logStream << *(chances+j);
-	//	else logStream << ","<<*(chances+j);
-	//}
-	//
-	//logStream <<std::endl;
-	//logStream.close();
+	std::fstream logStream;
+	logStream.open("chances.log", std::ios::out | std::ios::app);
+	logStream << "("<< i <<"/"<< size<<")";
+	for (unsigned int j(0); j<getSize(); ++j){
+		if (j==0) logStream << *(chances+j);
+		else logStream << ","<<*(chances+j);
+	}
+
+	logStream <<std::endl;
+	logStream.close();
 
 	delete[] chances;
 }

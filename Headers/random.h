@@ -27,6 +27,8 @@ namespace maths{
 			}
 
 			double flat(double Min, double Max);
+			int flat(int Min, int Max);
+			unsigned bit();
 
 			double gaussian(double sd, double mean);
 	};

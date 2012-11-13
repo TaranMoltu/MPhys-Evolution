@@ -15,6 +15,14 @@ double random::flat(double Min, double Max){
 	return ((double(rand()) / double(RAND_MAX)) * (Max - Min)) + Min;
 }
 
+int random::flat(int Min, int Max){
+	return floor(((double(rand()) / double(RAND_MAX)) * (Max - Min)) + Min);
+}
+
+unsigned random::bit(){
+	return (flat(0,9)%2);
+}
+
 double random::gaussian(double sd, double mean) //Based on implementation by Dr Everett Carter @ Taygeta Scientific inc.
 {
 	double x1,x2, w, z1; //x1 and x2 are the random numbers defined in Boxmuller function

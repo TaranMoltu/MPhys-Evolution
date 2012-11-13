@@ -14,64 +14,52 @@ using namespace org;
  * Constructors
  *========================================================================== */
 
-height::height(const double &height, const double &sd, const double &rate1): value(height), standardDeviation(sd), rate(rate1) {
+/*height::height(const double &height, const double &sd, const double &rate1): value(height), standardDeviation(sd), rate(rate1) {
 	max=maths::pi; min=-maths::pi;
-}
+}*/
 
 void environment::addEntity(entity* toAdd){
 	entities.push_front(toAdd);
 }
 
 genome::genome(){
-	 gene* temp = new height;
-	 genes.push_back(temp);
-}
-
-genome::genome(gene* initial){
-	 gene* temp = initial->clone();
-	 genes.push_back(temp);
+	 base2Genome.push_back(1);
 }
 
 genome::genome(const genome &source){
 	for(unsigned int i(0);i<source.getSize();++i){
-		genes.push_back(source(i)->clone());
+		base2Genome.push_back(source(i));
 	}
 }
 
-void genome::addGene(gene* toCopy){
-	 gene* temp = toCopy->clone();
-	 genes.push_back(temp);
+genome::genome(unsigned length){
+	for(unsigned i(0);i<length;++i){
+		base2Genome.push_back(maths::roll.bit());
+	}
 }
 
 genome genome::operator=(const genome &source){
 	if (this!=&source) {
-		genes.clear();
+		base2Genome.clear();
 		for(unsigned int i(0);i<source.getSize();++i){
 
-			genes.push_back(source(i)->clone());
+			base2Genome.push_back(source(i));
 		}
 	}
 	return *this;
 }
 environment::environment(double cap, double c, std::string log):
-		logFile(log), capacity(cap),  reach(c){
+		logFile(log), capacity(1.0/cap),  reach(c), minPosition(-maths::pi),maxPosition(maths::pi){
 		}
 
 
 /*============================================================================
  * Destructors
  *========================================================================== */
-height::~height(){};
+//height::~height(){};
 
 genome::~genome(){
-	std::vector<gene*>::const_iterator current,begin,end;
-	begin = genes.begin();
-	end = genes.end();
 
-	for (current=begin; current<end;++current){//delete all genes
-		delete *current;
-	}
-	genes.clear();
 }
 
 environment::~environment(){
@@ -88,26 +76,34 @@ environment::~environment(){
  * Accesors
  *========================================================================== */
 unsigned int genome::getSize()const{
-	 return genes.size();
+	 return base2Genome.size();
+}
+
+double entity::getPosition()const{
+	return position;
 }
 
 
-gene* genome::operator()(const unsigned int i) const{//override brackets to give a sane return
-	if (i < 0 || i > genes.size() ){
+int genome::operator()(const unsigned int i) const{//override brackets to give a sane return
+	if (i < 0 || i > base2Genome.size() ){
 			std::cout << "out of range" << std::endl;
-			return NULL;
+			return -1;
 	}
 	else{
-		return (this->genes[i]);
+		return (this->base2Genome[i]);
 	}
 }
 
-double height::getValue()const{
+/*double height::getValue()const{
 	return value;
-}
+*/
 
 unsigned int environment::getSize()const{
 	return entities.size();
+}
+
+genome entity::getGenome() const{
+	return *this;
 }
 
 /*============================================================================
@@ -141,25 +137,26 @@ std::ostream & org::operator<<(std::ostream &os, const gene &source){
 	return os;
 }
 
-std::string height::info() const{
+/*std::string height::info() const{
 	std::stringstream out;
 	out << "height: " << value << "m" <<" sd: " << standardDeviation <<" range:"<< min <<" - "<< max;
 	return out.str();
-}
+}*/
 
 std::ostream & org::operator<<(std::ostream &os, const genome &source){
-	std::vector<gene*>::const_iterator current,begin,end;
-	begin = source.genes.begin();
-	end = source.genes.end();
+	std::vector<int>::const_iterator current,begin,end;
+	begin = source.base2Genome.begin();
+	end = source.base2Genome.end();
 
 	for (current=begin; current<end;++current){//print all genes!
-		os << (*current)->info() << std::endl;
+		os << (*current);
 	}
+	os << std::endl;
 	return os;
 }
 std::ostream & org::operator<<(std::ostream &os, const entity &source){
 	os << "\n-------------------Info----------------------"<<std::endl;
-	os << "Lifetime: " << source.lifetime << std::endl;
+	os << "Position: " << source.position << std::endl;
 	os << "------------------Genome---------------------"<<std::endl;
 	os << (genome)source;
 	os << "---------------------------------------------"<<std::endl;
@@ -170,7 +167,17 @@ std::ostream & org::operator<<(std::ostream &os, const entity &source){
 
 std::string entity::log() const{
 	std::stringstream out;
-	out << genes[0]->getValue();
+	//out << "{";
+	std::vector<int>::const_iterator current,begin,end;
+	begin = base2Genome.begin();
+	end = base2Genome.end();
+
+	for (current=begin; current<end;++current){//print all genes!
+		out << (*current);
+	}
+
+	//out <<"}";
+	//out << position;
 	return out.str();
 
 }
