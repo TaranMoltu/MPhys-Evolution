@@ -12,10 +12,6 @@ using namespace org;
 /*============================================================================
  * Factories
  *========================================================================== */
-/*gene* height::clone()const{
-	gene* temp = new height(this->value,this->standardDeviation,this->rate);
-	return temp;
-}*/
 
 entity* entity::clone()const{
 	entity* temp = new entity(this->position,*this);

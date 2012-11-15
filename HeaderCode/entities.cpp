@@ -27,12 +27,14 @@ genome::genome(){
 }
 
 genome::genome(const genome &source){
+	base2Genome.reserve(source.getSize());
 	for(unsigned int i(0);i<source.getSize();++i){
 		base2Genome.push_back(source(i));
 	}
 }
 
 genome::genome(unsigned length){
+	base2Genome.reserve(length);
 	for(unsigned i(0);i<length;++i){
 		base2Genome.push_back(maths::roll.bit());
 	}
@@ -41,6 +43,7 @@ genome::genome(unsigned length){
 genome genome::operator=(const genome &source){
 	if (this!=&source) {
 		base2Genome.clear();
+		base2Genome.reserve(source.getSize());
 		for(unsigned int i(0);i<source.getSize();++i){
 
 			base2Genome.push_back(source(i));
@@ -114,18 +117,13 @@ void environment::tick(){
 	std::list<entity*>::iterator current,end;
 		current = entities.begin();
 		end = entities.end();
-		entity* parent;
-		entity* child;
 		death();
 		for (current=entities.begin(); current!=end; ++current){
-			parent = (*current);
-			child=parent->asex();
-			this->addEntity(child);
+			this->addEntity((*current)->asex());
 			//std::cout<<"birth!"<<std::endl;
 		}
 	this->log();
 }
-
 /*============================================================================
  * Printing
  *========================================================================== */
@@ -137,11 +135,6 @@ std::ostream & org::operator<<(std::ostream &os, const gene &source){
 	return os;
 }
 
-/*std::string height::info() const{
-	std::stringstream out;
-	out << "height: " << value << "m" <<" sd: " << standardDeviation <<" range:"<< min <<" - "<< max;
-	return out.str();
-}*/
 
 std::ostream & org::operator<<(std::ostream &os, const genome &source){
 	std::vector<int>::const_iterator current,begin,end;
@@ -172,7 +165,7 @@ std::string entity::log() const{
 	begin = base2Genome.begin();
 	end = base2Genome.end();
 
-	for (current=begin; current<end;++current){//print all genes!
+	for (current=begin; current<end;++current){//print ALL the genes!
 		out << (*current);
 	}
 

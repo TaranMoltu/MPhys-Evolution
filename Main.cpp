@@ -24,14 +24,13 @@ int main(){
 	org::environment test(10.0,1.0); //Create an environment with carrying capacity and range.
 	org::entity* temp;
 	org::genome* prototype;
-	//double standDeviation(0.01); //variation in height
-
 
 	for(unsigned int i(0);i<10;i++){
 		prototype=new org::genome(8);
 		temp= new org::entity(0,*prototype);
 		test.addEntity(temp);
 	}
+
 	double done;
 
 	for(unsigned int i(0); i<loops; i++){ //for loop that writes the progress bar

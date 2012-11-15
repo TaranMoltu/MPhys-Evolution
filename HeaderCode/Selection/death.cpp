@@ -16,16 +16,11 @@ void environment::death(){
 	double normalisation(capacity/(std::sqrt(2.0*maths::pi)*reach));
 	double* chances = new double[getSize()];
 	unsigned i(0), j(0);
-	unsigned size(getSize());
 
 
 	double difference(0);
 
 	for (current=entities.begin(); current!=entities.end(); ++current){
-		if(i>=size){
-			std::cout<< "("<<i<<"/"<<size<<") break!"<<std::endl;
-			break;
-		}
 
 		for (currentb=entities.begin(); currentb!=entities.end(); ++currentb){
 			if (currentb!=current){
@@ -34,21 +29,19 @@ void environment::death(){
 				*(chances+i) +=exp(-1.0*pow(difference,2.0)/(2.0*pow(reach,2.0)));
 				//std::cout<<"c: "<<chances<<std::end;
 			}
-		j++;
+			j++;
 		}
 
 		*(chances+i) *=normalisation;
 		//std::cout<<"chances: "<<*(chances+i)<<std::endl;
-		if((*current)->death(*(chances+i))){
-			current=--(entities.erase(current));
-		}
+		if((*current)->death(*(chances+i))) current=--(entities.erase(current));
 		i++;
 
 	}
 
 	std::fstream logStream;
 	logStream.open("chances.log", std::ios::out | std::ios::app);
-	logStream << "("<< i <<"/"<< size<<")";
+	logStream << "("<< i <<"/"<< getSize()<<")";
 	for (unsigned int j(0); j<getSize(); ++j){
 		if (j==0) logStream << *(chances+j);
 		else logStream << ","<<*(chances+j);
@@ -60,29 +53,10 @@ void environment::death(){
 	delete[] chances;
 }
 
-/*
-void environment::death(){
-	std::list<entity*>::iterator current;
-
-	unsigned int size(getSize());
-
-	double difference(0);
-
-	for (current=entities.begin(); current!=entities.end(); ++current){
-
-		if((*current)->death(size*capacity)){
-			current=--(entities.erase(current));
-		}
-
-	}
-
-}
-*/
 bool entity::death(double evFactor){
 	if (maths::roll.flat(0.0,1.0)>evFactor) return false;
 	else{
-	delete this;
-	return true;
+		delete this;
+		return true;
 	}
-
 }
