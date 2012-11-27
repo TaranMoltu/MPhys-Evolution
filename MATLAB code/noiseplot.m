@@ -7,7 +7,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[FileName,PathName,FilterIndex] = uigetfile();
+[FileName,PathName,FilterIndex] = uigetfile('*.dat');
 file = fullfile(PathName, FileName);
 
 % We need to import the data using our own custom reader since MATLAB can't
