@@ -8,7 +8,7 @@
 
 clear all; %Let's start with a fresh slate
 
-[FileName,PathName,FilterIndex] = uigetfile();
+[FileName,PathName,FilterIndex] = uigetfile('*.dat');
 filename = fullfile(PathName, FileName);
 datamatrix = csvread(filename);
 [rows, cols] = size(datamatrix); %rows is number of rows etc
