@@ -8,6 +8,6 @@ Release/*
 Release
 *.asv
 MATLAB Code/fwhm.m
-log.dat
+*.dat
 chances.log
 *.exe
