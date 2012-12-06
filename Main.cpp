@@ -10,22 +10,22 @@
 #include "Headers/entities.h"
 
 int main(){
-
+	clock_t begin=clock();
 	double carryingCapacity(20000);
 	double standDeviation(0.01); //variation in height
 	double reach(4.0);
-	unsigned int loops(2000); //Loops is the number of generations - can change safely
+	unsigned int loops(100); //Loops is the number of generations - can change safely
 
 	std::stringstream fileName;
 	fileName << "k=" << carryingCapacity << ",c=" << reach << ",sigma="<< standDeviation <<",loops="<< loops <<".dat";
 
 	std::cout.precision(3);
 	std::cout << "Evolving! (this could take some time)"<<std::endl;
-	org::environment test(10.0,1.0); //Create an environment with carrying capacity and range.
+	org::environment test(100.0,1.0); //Create an environment with carrying capacity and range.
 	org::entity* temp;
 	org::genome* prototype;
 
-	for(unsigned int i(0);i<10;i++){
+	for(unsigned int i(0);i<100;i++){
 		prototype=new org::genome(8);
 		temp= new org::entity(0,*prototype);
 		test.addEntity(temp);
@@ -46,5 +46,6 @@ int main(){
 	}
 
 	std::cout << std::endl;
+	std::cout <<"time taken: "<< (clock()-begin)/CLOCKS_PER_SEC <<" seconds"<< std::endl;
 }
 

@@ -19,7 +19,7 @@ using namespace org;
 }*/
 
 void environment::addEntity(entity* toAdd){
-	entities.push_front(toAdd);
+	entities.push_back(toAdd);
 }
 
 genome::genome(){
@@ -66,7 +66,7 @@ genome::~genome(){
 }
 
 environment::~environment(){
-	std::list<entity*>::const_iterator current,begin,end;
+	std::vector<entity*>::const_iterator current,begin,end;
 	end = entities.end();
 
 	for (current=entities.begin(); current!=end;++current){//delete all genes
@@ -113,16 +113,20 @@ genome entity::getGenome() const{
  * tick
  *========================================================================== */
 void environment::tick(){
-	//entities.reserve(entities.size()*2);
-	std::list<entity*>::iterator current,end;
+
+	std::vector<entity*>::iterator current,end;
+		death();
 		current = entities.begin();
 		end = entities.end();
-		death();
-		for (current=entities.begin(); current!=end; ++current){
+		entities.reserve(entities.size()*2);
+		int i(0);
+		this->log();
+		for (current=entities.begin(); current<end; current++){
 			this->addEntity((*current)->asex());
 			//std::cout<<"birth!"<<std::endl;
+			i++;
 		}
-	this->log();
+
 }
 /*============================================================================
  * Printing
@@ -178,10 +182,10 @@ std::string entity::log() const{
 void environment::log()const{
 	std::fstream logStream;
 	logStream.open(logFile.c_str(), std::ios::out | std::ios::app);
-	std::list<entity*>::const_iterator current,end;
+	std::vector<entity*>::const_iterator current,end;
 	end = entities.end();
 
-	for (current=entities.begin(); current!=end; ++current){
+	for (current=entities.begin(); current<end; ++current){
 		if (current==entities.begin()) logStream << (*current)->log();
 		else logStream << ","<<(*current)->log();
 	}

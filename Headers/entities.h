@@ -98,8 +98,10 @@ class entity: public genome { //An organism which is made up of genomes. Derivat
 };
 
 class environment{ //collection of entities
+	private:
+		void deathThread(unsigned start, unsigned length, double* chances);
 	protected:
-		std::list<entity*> entities;
+		std::vector<entity*> entities;
 		std::string logFile;
 		double capacity;
 		double reach; //c
