@@ -1,5 +1,5 @@
 /*
- * clone.cpp
+ * random.cpp
  *
  *  Created on: 27 Sep 2012
  *      Author: Joshua

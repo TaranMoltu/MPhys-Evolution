@@ -45,13 +45,12 @@ void environment::deathThread(unsigned start, unsigned length, double* chances) 
 }
 
 void environment::death(){
-
 	std::vector<entity*>::iterator current;
 	double* chances = new double[getSize()];
 
 	//--Thread maths---------------------------------------
 
-	unsigned numThreads(8), blockSize(getSize()/numThreads);
+	unsigned numThreads(1), blockSize(getSize()/numThreads);
 	unsigned start, length;
 
 	if(numThreads>1){
@@ -88,7 +87,7 @@ void environment::death(){
 	unsigned i(0);
 	for (current=entities.begin(); current<entities.end(); ++current){
 		//std::cout<<"chances"<<i<<": "<<*(chances+i)<<std::endl;
-		if((*current)->death(*(chances+i))) current=--(entities.erase(current));
+		if((*current)->death(*(chances+i))) current=(entities.erase(current));
 		i++;
 	}
 	std::fstream logStream;

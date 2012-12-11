@@ -115,17 +115,19 @@ genome entity::getGenome() const{
 void environment::tick(){
 
 	std::vector<entity*>::iterator current,end;
+	try{
 		death();
 		current = entities.begin();
-		end = entities.end();
+	}catch(const std::exception &e){std::cout << e.what()<<std::endl;}
 		entities.reserve(entities.size()*2);
-		int i(0);
-		this->log();
+		end=entities.end();
 		for (current=entities.begin(); current<end; current++){
-			this->addEntity((*current)->asex());
+			try{
+				this->addEntity((*current)->asex());
 			//std::cout<<"birth!"<<std::endl;
-			i++;
+			}catch(const std::exception &e){std::cout << e.what()<<std::endl;}
 		}
+		this->log();
 
 }
 /*============================================================================
