@@ -50,8 +50,8 @@ for i=1:rows
         decimalvalue = bin2dec(num2str(genomematrix(i,j)));
         genomematrix(i,j) = decimalvalue;
         %Five zeroes == end of row OR we've reached the end of the row
-        if decimalvalue==0 || j==rows
-            if (genomematrix(i,j+1) == 0 && genomematrix(i,j+2) == 0 && genomematrix(i,j+3) == 0 && genomematrix(i,j+4) == 0) || j==rows
+        if j==cols||decimalvalue==0 
+            if j==cols || (genomematrix(i,j+1) == 0 && genomematrix(i,j+2) == 0 && genomematrix(i,j+3) == 0 && genomematrix(i,j+4) == 0) 
                 numberalive(i,:) = j-1;
                 break;
             end
