@@ -12,16 +12,28 @@
 
 int main(){
 
-	double carryingCapacity(20000);
+	double carryingCapacity(500);
 	double standDeviation(0.01); //variation in height
 	double reach(4.0);
 	unsigned int loops(2000); //Loops is the number of generations - can change safely
+
+	std::cout << "Carrying capacity (k): ";
+	std::cin >> carryingCapacity;
+	std::cout << std::endl << "standard Deviation (sigma): ";
+	std::cin >> standDeviation;
+	std::cout << std::endl << "Competition distance (c): ";
+	std::cin >> reach;
 
 	std::stringstream fileName;
 	fileName << "k=" << carryingCapacity << ",c=" << reach << ",sigma="<< standDeviation <<",loops="<< loops <<".dat";
 
 	std::cout.precision(3);
-	std::cout << "Evolving! (this could take some time)"<<std::endl;
+	std::cout << "  Evolving! (this could take some time)  "<<std::endl;
+	std::cout << "-----------------------------------------"<<std::endl;
+	std::cout << "carrying capacity: "<< carryingCapacity <<std::endl;
+	std::cout << "Competition distance (c): "<< reach <<std::endl;
+	std::cout << "standard Deviation (sigma): "<< standDeviation <<std::endl;
+	std::cout << "-----------------------------------------"<<std::endl;
 	org::environment test(1.0/carryingCapacity,reach,fileName.str()); //Create an environment with carrying capacity and range.
 
 	org::gene* prototypeGene;
