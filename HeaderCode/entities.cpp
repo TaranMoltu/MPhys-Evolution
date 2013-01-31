@@ -19,7 +19,7 @@ height::height(const double &height, const double &sd, const double &rate1): val
 }
 
 void environment::addEntity(entity* toAdd){
-	entities.push_front(toAdd);
+	entities.push_back(toAdd);
 }
 
 genome::genome(){
@@ -75,7 +75,7 @@ genome::~genome(){
 }
 
 environment::~environment(){
-	std::list<entity*>::const_iterator current,begin,end;
+	std::vector<entity*>::const_iterator current,begin,end;
 	end = entities.end();
 
 	for (current=entities.begin(); current!=end;++current){//delete all genes
@@ -115,18 +115,27 @@ unsigned int environment::getSize()const{
  *========================================================================== */
 void environment::tick(){
 	//entities.reserve(entities.size()*2);
-	std::list<entity*>::iterator current,end;
-		current = entities.begin();
-		end = entities.end();
-		entity* parent;
-		entity* child;
-		death();
-		for (current=entities.begin(); current!=end; ++current){
-			parent = (*current);
-			child=parent->asex();
-			this->addEntity(child);
-			//std::cout<<"birth!"<<std::endl;
+	std::vector<entity*>::iterator current,end;
+	end = entities.end();
+	unsigned startPopulation, attempts(5);
+	entity* test;
+
+	death();
+	entities.reserve(entities.size()*2);//reserve memory for more efficient resizing
+
+	current = entities.begin();
+	end=entities.end();
+	startPopulation=getSize();
+	for (current=entities.begin(); current<end; current++){
+		for (unsigned i(0);i<attempts;i++){
+			test=(*current)->sex(*(current+maths::roll.flat(0,startPopulation)));//have sex with some random entity
+			//test=(*current)->asex();
+			if (test!=NULL) {
+				this->addEntity(test);
+				break;
+			}
 		}
+	}
 	this->log();
 }
 
@@ -178,10 +187,10 @@ std::string entity::log() const{
 void environment::log()const{
 	std::fstream logStream;
 	logStream.open(logFile.c_str(), std::ios::out | std::ios::app);
-	std::list<entity*>::const_iterator current,end;
+	std::vector<entity*>::const_iterator current,end;
 	end = entities.end();
 
-	for (current=entities.begin(); current!=end; ++current){
+	for (current=entities.begin(); current<end; ++current){
 		if (current==entities.begin()) logStream << (*current)->log();
 		else logStream << ","<<(*current)->log();
 	}

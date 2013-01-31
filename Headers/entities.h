@@ -23,6 +23,7 @@ class gene { //gene is an abstract base class for an organisms genes
 		virtual bool selection()=0; //may need to be numerical later- how is this gene selected
 		virtual std::string info()const=0; //function for returning key details on an organism
 		virtual double getValue() const=0; //returns genes value eg returns height value for height etc
+		virtual void mate(gene* spouceGene)=0;
 		
 	
 	};
@@ -43,6 +44,7 @@ class height : public gene{ //height is an implementation of gene
 		virtual std::string info() const;
 
 		virtual double getValue() const;
+		virtual void mate(gene* spouceGene);
 
 	};
 
@@ -68,6 +70,7 @@ public:
 	gene* operator()(const unsigned int i) const;
 
 	void mutate();
+	void mate(genome* spouceGenome);
 	
 	};
 
@@ -88,6 +91,7 @@ class entity: public genome { //An organism which is made up of genomes. Derivat
 		entity* clone() const; //factory for entities
 
 		entity* asex(); //reproduce asexually.
+		entity* sex(entity* spouce); //reproduce sexually.
 
 		bool death(double evFactor); //decides whether or not the entity of mail will elate above death
 
@@ -95,7 +99,7 @@ class entity: public genome { //An organism which is made up of genomes. Derivat
 
 class environment{ //collection of entities
 	protected:
-		std::list<entity*> entities;
+	std::vector<entity*> entities;
 		std::string logFile;
 		double capacity;
 		double reach; //c

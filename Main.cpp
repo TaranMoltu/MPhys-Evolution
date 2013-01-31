@@ -32,15 +32,14 @@ int main(){
 	std::cout << "-----------------------------------------"<<std::endl;
 	std::cout << "carrying capacity: "<< carryingCapacity <<std::endl;
 	std::cout << "Competition distance (c): "<< reach <<std::endl;
-	std::cout << "standard Deviation (sigma): "<< standDeviation <<std::endl;
+	std::cout << "standard Deviation (Delta): "<< standDeviation <<std::endl;
 	std::cout << "-----------------------------------------"<<std::endl;
 	org::environment test(1.0/carryingCapacity,reach,fileName.str()); //Create an environment with carrying capacity and range.
 
 	org::gene* prototypeGene;
 	org::entity* temp;
 
-	for(unsigned int i(0);i<5000;i++){
-
+	for(unsigned int i(0);i<carryingCapacity/10;i++){
 
 
     prototypeGene =  new org::height(maths::roll.flat(-maths::pi,+maths::pi));

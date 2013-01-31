@@ -12,42 +12,46 @@
 using namespace org;
 
 void environment::death(){
-	std::list<entity*>::iterator current, currentb;
-	//double chances(0);
-	double x(0), y(0), normalisation(capacity/(std::sqrt(2.0*maths::pi)*reach));
+	std::vector<entity*>::iterator current, currentb;
 	double* chances = new double[getSize()];
+
+	double x(0), y(0), normalisation(capacity/(std::sqrt(2.0*maths::pi)*reach));
 	unsigned i(0), j(0);
 	unsigned size(getSize());
 
 
 	double difference(0);
 
-	for (current=entities.begin(); current!=entities.end(); ++current){
+	for (current=entities.begin(); current<entities.end(); ++current){
 		if(i>=size){
 			std::cout<< "("<<i<<"/"<<size<<") break!"<<std::endl;
 			break;
 		}
 		x=(**current)(0)->getValue();
 		j=0;
-		for (currentb=--entities.end(); currentb!=entities.begin(); --currentb){
-			if (j>2000) {*(chances+i) *=(double)size/(double)j; break;}
+		for (currentb=entities.begin(); currentb<entities.end(); ++currentb){
+			if (j>2000) {*(chances+i) *=(double)size/(double)j; break;} //after sampling 2000 other organisms, assume we have a representative sample
 			if (currentb!=current){
 				y=(**currentb)(0)->getValue();
 				fabs(x-y)>maths::pi ? difference = 2.0 * maths::pi - fabs(y-x) : difference = fabs(x-y);
 				//std::cout << difference<<std::endl;
 				*(chances+i) +=exp(-1.0*pow(difference,2.0)/(2.0*pow(reach,2.0)));
-				//std::cout<<"c: "<<chances<<std::end;
+				//std::cout <<"c: "<<*(chances+i)<<std::endl;
 			}
 		j++;
 		}
 		//std::cout<<"chances: "<<chances<<std::endl;
 		*(chances+i) *=normalisation;
-		if((*current)->death(*(chances+i))){
-			current=--(entities.erase(current));
-		}
 		i++;
-
 	}
+
+	i=0;
+	for (current=entities.begin(); current<entities.end(); ++current){
+		//std::cout<<"chances"<<i<<": "<<*(chances+i)<<std::endl;
+		if((*current)->death(*(chances+i))) current=--(entities.erase(current));
+		i++;
+	}
+	//std::cout << i <<std::endl;
 
 	//std::fstream logStream;
 	//logStream.open("chances.log", std::ios::out | std::ios::app);
