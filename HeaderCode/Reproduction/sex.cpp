@@ -6,6 +6,7 @@
  */
 
 #include "../../Headers/entities.h"
+#include "../../Headers/random.h"
 
 using namespace org;
 
@@ -13,7 +14,24 @@ using namespace org;
  * Gene Mating
  *========================================================================== */
 void height::mate(gene* spouceGene){
-	value=(spouceGene->getValue()+this->getValue())/2.0;
+	if(fabs(spouceGene->getValue()-this->getValue())<maths::pi){
+		value=(spouceGene->getValue()+this->getValue())/2.0;
+	}else{
+		if (spouceGene->getValue() > this->getValue()){
+			value=(spouceGene->getValue()+this->getValue()+2*maths::pi)/2.0;
+		}else{
+			value=(spouceGene->getValue()+this->getValue()-2*maths::pi)/2.0;
+		}
+	}
+
+
+	while(value  > max){
+			value = value -(max-min);
+		}
+
+	while(value  < min){
+		value = value +(max-min);
+	}
 }
 void genome::mate(genome* spouceGenome){
 	std::vector<gene*>::const_iterator current,begin,end;
@@ -34,8 +52,8 @@ void genome::mate(genome* spouceGenome){
  *========================================================================== */
 
 entity* entity::sex(entity* spouse){
-	//if (!this->selection(spouse)){
-	if (false){
+	if (!this->selection(spouse)){
+	//if (false){
 		return NULL; //return null pointer if match is not appropriate
 	}
 	else {

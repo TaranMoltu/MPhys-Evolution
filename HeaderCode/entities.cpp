@@ -117,7 +117,7 @@ void environment::tick(){
 	//entities.reserve(entities.size()*2);
 	std::vector<entity*>::iterator current,end;
 	end = entities.end();
-	unsigned startPopulation, attempts(5);
+	unsigned startPopulation, attempts(50);
 	entity* test;
 
 	death();
