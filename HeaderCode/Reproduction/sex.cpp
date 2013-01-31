@@ -34,6 +34,7 @@ void genome::mate(genome* spouceGenome){
  *========================================================================== */
 
 entity* entity::sex(entity* spouse){
+	//if (!this->selection(spouse)){
 	if (false){
 		return NULL; //return null pointer if match is not appropriate
 	}

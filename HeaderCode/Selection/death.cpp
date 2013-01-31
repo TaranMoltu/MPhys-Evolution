@@ -67,24 +67,6 @@ void environment::death(){
 	delete[] chances;
 }
 
-/*
-void environment::death(){
-	std::list<entity*>::iterator current;
-
-	unsigned int size(getSize());
-
-	double difference(0);
-
-	for (current=entities.begin(); current!=entities.end(); ++current){
-
-		if((*current)->death(size*capacity)){
-			current=--(entities.erase(current));
-		}
-
-	}
-
-}
-*/
 bool entity::death(double evFactor){
 	if (maths::roll.flat(0.0,1.0)>evFactor) return false;
 	else{

@@ -128,11 +128,12 @@ void environment::tick(){
 	startPopulation=getSize();
 	for (current=entities.begin(); current<end; current++){
 		for (unsigned i(0);i<attempts;i++){
-			test=(*current)->sex(*(current+maths::roll.flat(0,startPopulation)));//have sex with some random entity
+			test=(*current)->sex(*(entities.begin()+maths::roll.flat(0,startPopulation)));//have sex with some random entity
 			//test=(*current)->asex();
 			if (test!=NULL) {
 				this->addEntity(test);
 				break;
+
 			}
 		}
 	}
