@@ -14,7 +14,12 @@ void genome::mutatePoint(int position){
 
 	if (position <0 || position > (int)this->getSize()) position=maths::roll.flat(0,this->getSize());
 
-	base2Genome[position]=maths::roll.bit();
+	unsigned byte;
+	position % 8>0 ? byte=position/8+1:byte=position/8;
+
+	base2Genome[byte]= base2Genome[byte] ^ maths::roll.bit()<<position;
+
+
 
 }
 

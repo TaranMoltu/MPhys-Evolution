@@ -50,7 +50,7 @@ void environment::death(){
 
 	//--Thread maths---------------------------------------
 
-	unsigned numThreads(1), blockSize(getSize()/numThreads);
+	unsigned numThreads(8), blockSize(getSize()/numThreads);
 	unsigned start, length;
 
 	if(numThreads>1){
@@ -85,11 +85,17 @@ void environment::death(){
 	}
 
 	unsigned i(0);
+	std::vector<entity*> survivers;
+	survivers.reserve(this->getSize());
 	for (current=entities.begin(); current<entities.end(); ++current){
 		//std::cout<<"chances"<<i<<": "<<*(chances+i)<<std::endl;
-		if((*current)->death(*(chances+i))) current=(entities.erase(current));
+		if(!(*current)->death(*(chances+i))) survivers.push_back(*current);
 		i++;
 	}
+	entities.clear();
+	entities=survivers;
+	survivers.clear();
+
 	std::fstream logStream;
 	logStream.open("chances.log", std::ios::out | std::ios::app);
 	logStream << "("<< i <<"/"<< getSize()<<")";

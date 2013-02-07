@@ -7,6 +7,7 @@
  */
 #include "../Headers/entities.h"
 #include "../Headers/random.h"
+#include <bitset>
 using namespace org;
 
 
@@ -23,28 +24,44 @@ void environment::addEntity(entity* toAdd){
 }
 
 genome::genome(){
-	 base2Genome.push_back(1);
+	 base2Genome.push_back(0x0);
+	 size=1;
 }
 
-genome::genome(const genome &source){
-	base2Genome.reserve(source.getSize());
-	for(unsigned int i(0);i<source.getSize();++i){
-		base2Genome.push_back(source(i));
+genome::genome(const genome* source){
+	bool create(0);
+	if (source==NULL){source = new genome(); create =1;}
+	size=source->getSize();
+	unsigned bytes;
+	size % 8>0 ? bytes=size/8+1:bytes=size/8;
+	base2Genome.reserve(bytes);
+	for(unsigned int i(0);i<bytes;++i){
+		base2Genome.push_back(source->base2Genome[i]);
 	}
+	if (create){delete source;}
 }
 
 genome::genome(unsigned length){
-	base2Genome.reserve(length);
-	for(unsigned i(0);i<length;++i){
-		base2Genome.push_back(maths::roll.bit());
+	size=length;
+	unsigned bytes;
+	length % 8>0 ? bytes=length/8+1:bytes=length/8;
+	for(unsigned i(0);i<bytes;++i){
+		base2Genome.push_back(0x0);
+		for (unsigned j(0);j<8;++j){
+			base2Genome[i]= base2Genome[i] ^ ((char)maths::roll.bit()<<j);
+
+		}
 	}
 }
 
 genome genome::operator=(const genome &source){
 	if (this!=&source) {
 		base2Genome.clear();
-		base2Genome.reserve(source.getSize());
-		for(unsigned int i(0);i<source.getSize();++i){
+		unsigned bytes;
+		size=source.getSize();
+		size % 8>0 ? bytes=size/8+1:bytes=size/8;
+		base2Genome.reserve(bytes);
+		for(unsigned int i(0);i<bytes;++i){
 
 			base2Genome.push_back(source(i));
 		}
@@ -59,7 +76,6 @@ environment::environment(double cap, double c, std::string log):
 /*============================================================================
  * Destructors
  *========================================================================== */
-//height::~height(){};
 
 genome::~genome(){
 
@@ -79,7 +95,7 @@ environment::~environment(){
  * Accesors
  *========================================================================== */
 unsigned int genome::getSize()const{
-	 return base2Genome.size();
+	 return size;
 }
 
 double entity::getPosition()const{
@@ -88,18 +104,16 @@ double entity::getPosition()const{
 
 
 int genome::operator()(const unsigned int i) const{//override brackets to give a sane return
-	if (i < 0 || i > base2Genome.size() ){
-			std::cout << "out of range" << std::endl;
+	if (i < 0 || i > size ){
+			std::cerr << "out of range" << std::endl;
 			return -1;
 	}
-	else{
-		return (this->base2Genome[i]);
+	else {
+		unsigned byte=i/8;
+		return base2Genome[byte] & 1<<(i-byte*8);
 	}
 }
 
-/*double height::getValue()const{
-	return value;
-*/
 
 unsigned int environment::getSize()const{
 	return entities.size();
@@ -107,6 +121,16 @@ unsigned int environment::getSize()const{
 
 genome entity::getGenome() const{
 	return *this;
+}
+
+char genome::getGenomeByte(unsigned i) const{
+	if (i < 0 || i > base2Genome.size() ){
+		std::cerr << "out of range" << std::endl;
+		return -1;
+	}
+	else {
+		return base2Genome[i];
+	}
 }
 
 /*============================================================================
@@ -127,7 +151,7 @@ void environment::tick(){
 			//std::cout<<"birth!"<<std::endl;
 			}catch(const std::exception &e){std::cout << e.what()<<std::endl;}
 		}
-		this->log();
+	this->log();
 
 }
 /*============================================================================
@@ -143,14 +167,15 @@ std::ostream & org::operator<<(std::ostream &os, const gene &source){
 
 
 std::ostream & org::operator<<(std::ostream &os, const genome &source){
-	std::vector<int>::const_iterator current,begin,end;
+	std::bitset<8> x;
+	std::vector<char>::const_iterator current,begin,end;
 	begin = source.base2Genome.begin();
 	end = source.base2Genome.end();
 
 	for (current=begin; current<end;++current){//print all genes!
-		os << (*current);
+		x=(*current);
+		os << x;
 	}
-	os << std::endl;
 	return os;
 }
 std::ostream & org::operator<<(std::ostream &os, const entity &source){
@@ -166,14 +191,17 @@ std::ostream & org::operator<<(std::ostream &os, const entity &source){
 
 std::string entity::log() const{
 	std::stringstream out;
+	std::bitset<8> x;
 	//out << "{";
-	std::vector<int>::const_iterator current,begin,end;
+	std::vector<char>::const_iterator current,begin,end;
 	begin = base2Genome.begin();
 	end = base2Genome.end();
 
-	for (current=begin; current<end;++current){//print ALL the genes!
-		out << (*current);
-	}
+	//for (current=begin; current<end;++current){//print ALL the genes!
+		x=base2Genome[0];
+		out << x;
+		//std::cout<<x;
+	//}
 
 	//out <<"}";
 	//out << position;

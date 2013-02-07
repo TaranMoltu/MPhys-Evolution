@@ -14,7 +14,7 @@ using namespace org;
  *========================================================================== */
 
 entity* entity::clone()const{
-	entity* temp = new entity(this->position,*this);
+	entity* temp = new entity(this->position,this);
 	return temp;
 }
 

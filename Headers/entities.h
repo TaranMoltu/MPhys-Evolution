@@ -28,45 +28,28 @@ class gene { //gene is an abstract base class for an organisms genes
 	
 	};
 	
-/*class height : public gene{ //height is an implementation of gene
-	protected:
-		double value; //how tall organism is
-		double standardDeviation; //for purpose of mutation function
-		double min,max; //range of possible values
-		double rate; //rate of mutation
-
-	public:
-		virtual gene* clone()const;
-		height(const double &height=1.0, const double &sd=0.001, const double &rate1=0.01);
-		~height();
-		virtual void mutate();
-		virtual bool selection();
-		virtual std::string info() const;
-
-		virtual double getValue() const;
-
-	};*/
 
 class genome{ //genome is a collection of all the genes an organism has rather like DNA
 
 	friend std::ostream & operator << (std::ostream &os, const genome &source);
 
 protected:
-	std::vector<int> base2Genome;
+	std::vector<char> base2Genome;
+	unsigned size;
 
 public:
-	//void addGene(gene* toCopy);
 
 	genome();
 	genome(const unsigned length);
-	genome(const genome &source);
+	genome(const genome* source);
 
 	~genome();
 
-	unsigned int getSize()const;
+	unsigned getSize()const;
 
 	genome operator=(const genome &source);
 	int operator()(const unsigned int i) const;
+	char getGenomeByte(unsigned i)const;
 
 	void mutatePoint(int position=-1);
 	
@@ -81,7 +64,7 @@ class entity: public genome { //An organism which is made up of genomes. Derivat
 		double position;
 
 	public:
-		entity(const double pos=0.0,genome prototype=genome()): genome(prototype), position(pos) {}
+		entity(const double pos=0.0,const genome* prototype=NULL): genome(prototype), position(pos) {}
 		virtual ~entity(){}
 
 		std::string log() const; //outputs information on a gene

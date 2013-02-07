@@ -10,19 +10,29 @@
 using namespace org;
 
 unsigned genome::distance(genome &compare) const{
-	unsigned distance(fabs(this->getSize()-compare.getSize())), size;
-	this->getSize() > compare.getSize() ? size = compare.getSize(): size = this->getSize();
+	unsigned dist = 0,val,bytes;
+		size % 8>0 ? bytes=size/8+1:bytes=size/8;
+		for(unsigned i(0);i<bytes;++i){
+			val = (unsigned)(base2Genome[i] ^ compare.getGenomeByte(i));
+			while(val){
+				++dist;
+				val &= val - 1;
+			}
+		}
 
-	for (unsigned i(0); i < size; i++) if(((*this)(i)) != compare(i)) distance++;
-
-	return distance;
+	return dist;
 
 }
 unsigned entity::distance(entity &compare) const{
-	unsigned distance(fabs(this->getSize()-compare.getSize())), size;
-	this->getSize() > compare.getSize() ? size = compare.getSize(): size = this->getSize();
+	unsigned dist = 0,val,bytes;
+	size % 8>0 ? bytes=size/8+1:bytes=size/8;
+	for(unsigned i(0);i<bytes;++i){
+		val = (unsigned)(base2Genome[i] ^ compare.getGenomeByte(i));
+		while(val){
+			++dist;
+			val &= val - 1;
+		}
+	}
 
-	for (unsigned i(0); i < size; i++) if(((*this)(i)) != compare(i)) distance++;
-
-	return distance;
+	return dist;
 }

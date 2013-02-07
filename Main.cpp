@@ -12,13 +12,12 @@
 int main(){
 	clock_t begin=clock();
 	double carryingCapacity(500);
-	double standDeviation(0.01); //variation in height
 	double reach(0.5);
 	unsigned genomeSize(8);
 	unsigned int loops(2000); //Loops is the number of generations - can change safely
 
 	std::stringstream fileName;
-	fileName << "k=" << carryingCapacity << ",c=" << reach << ",sigma="<< standDeviation <<",genome size="<<genomeSize<<",loops="<< loops <<".dat";
+	fileName << "k=" << carryingCapacity << ",c=" << reach << ",genome size="<<genomeSize<<",loops="<< loops <<".dat";
 	std::cout.precision(3);
 	std::cout << "Evolving! (this could take some time)"<<std::endl;
 	org::environment test(100.0,1.0,fileName.str()); //Create an environment with carrying capacity and range.
@@ -27,7 +26,7 @@ int main(){
 
 	for(unsigned int i(0);i<100;i++){
 		prototype=new org::genome(genomeSize);
-		temp= new org::entity(0,*prototype);
+		temp= new org::entity(0,prototype);
 		test.addEntity(temp);
 	}
 
