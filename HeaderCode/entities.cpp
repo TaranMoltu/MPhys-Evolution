@@ -16,6 +16,7 @@ using namespace org;
 
 height::height(const double &height, const double &sd, const double &rate1): value(height), standardDeviation(sd), rate(rate1) {
 	max=maths::pi; min=-maths::pi;
+	compatability=(max-min)*0.1;
 }
 
 void environment::addEntity(entity* toAdd){
@@ -104,6 +105,13 @@ gene* genome::operator()(const unsigned int i) const{//override brackets to give
 
 double height::getValue()const{
 	return value;
+}
+
+const gene* height::getGenePointer()const{
+	return this;
+}
+gene* genome::getGenePointer(unsigned i)const{
+	return genes[i];
 }
 
 unsigned int environment::getSize()const{

@@ -13,14 +13,14 @@ using namespace org;
 /*============================================================================
  * Gene Mating
  *========================================================================== */
-void height::mate(gene* spouceGene){
-	if(fabs(spouceGene->getValue()-this->getValue())<maths::pi){
-		value=(spouceGene->getValue()+this->getValue())/2.0;
+void height::mate(gene* spouseGene){
+	if(fabs(spouseGene->getValue()-this->getValue())<maths::pi){
+		value=(spouseGene->getValue()+this->getValue())/2.0;
 	}else{
-		if (spouceGene->getValue() > this->getValue()){
-			value=(spouceGene->getValue()+this->getValue()+2*maths::pi)/2.0;
+		if (spouseGene->getValue() > this->getValue()){
+			value=(spouseGene->getValue()+this->getValue()+2*maths::pi)/2.0;
 		}else{
-			value=(spouceGene->getValue()+this->getValue()-2*maths::pi)/2.0;
+			value=(spouseGene->getValue()+this->getValue()-2*maths::pi)/2.0;
 		}
 	}
 
