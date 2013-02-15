@@ -14,9 +14,12 @@ using namespace org;
  * Constructors
  *========================================================================== */
 
-height::height(const double &height, const double &sd, const double &rate1): value(height), standardDeviation(sd), rate(rate1) {
+height::height(const double &height, const double &sd, const double &rate1, const double &comp):
+	value(height),
+	standardDeviation(sd),
+	rate(rate1){
 	max=maths::pi; min=-maths::pi;
-	compatability=(max-min)*0.1;
+	compatability=(max-min)*comp;
 }
 
 void environment::addEntity(entity* toAdd){
@@ -54,8 +57,8 @@ genome genome::operator=(const genome &source){
 	}
 	return *this;
 }
-environment::environment(double cap, double c, std::string log):
-		logFile(log), capacity(cap),  reach(c){
+environment::environment(double cap, double c, std::string log, const unsigned& attemp):
+		logFile(log), capacity(cap),  reach(c), attempts(attemp){
 		}
 
 
@@ -122,16 +125,13 @@ unsigned int environment::getSize()const{
  * tick
  *========================================================================== */
 void environment::tick(){
-	//entities.reserve(entities.size()*2);
 	std::vector<entity*>::iterator current,end;
-	end = entities.end();
-	unsigned startPopulation, attempts(50);
+	unsigned startPopulation;
 	entity* test;
 
 	death();
 	entities.reserve(entities.size()*2);//reserve memory for more efficient resizing
 
-	current = entities.begin();
 	end=entities.end();
 	startPopulation=getSize();
 	for (current=entities.begin(); current<end; current++){

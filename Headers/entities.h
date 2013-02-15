@@ -40,7 +40,7 @@ class height : public gene{ //height is an implementation of gene
 
 	public:
 		virtual gene* clone()const;
-		height(const double &height=1.0, const double &sd=0.001, const double &rate1=0.01);
+		height(const double &height=1.0, const double &sd=0.001, const double &rate1=0.01, const double &comp=0.1);
 		~height();
 		virtual void mutate();
 		virtual bool selection()const;
@@ -111,9 +111,10 @@ class environment{ //collection of entities
 		std::string logFile;
 		double capacity;
 		double reach; //c
+		unsigned attempts;
 
 	public:
-		environment(double cap=1.0/100.0, double c=0.9, std::string log="log.dat");
+		environment(double cap=1.0/100.0, double c=0.9, std::string log="log.dat", const unsigned& attemp = 50);
 		~environment();
 		void addEntity(entity* toAdd);
 

@@ -15,24 +15,32 @@ int main(){
 	double carryingCapacity(500);
 	double standDeviation(0.01); //variation in height
 	double reach(4.0);
+	double compatability (0.1);
+	unsigned attempts(50);
 	unsigned int loops(2000); //Loops is the number of generations - can change safely
 
 	std::cout << "Carrying capacity (k): ";
 	std::cin >> carryingCapacity;
-	std::cout << std::endl << "standard Deviation (sigma): ";
+	std::cout << std::endl << "standard Deviation (delta): ";
 	std::cin >> standDeviation;
 	std::cout << std::endl << "Competition distance (c): ";
 	std::cin >> reach;
+	std::cout << std::endl << "Compatability (0-->1) (q): ";
+	std::cin >> compatability;
+	std::cout << std::endl << "mating attempts/organism/tick (t): ";
+	std::cin >> attempts;
 
 	std::stringstream fileName;
-	fileName << "k=" << carryingCapacity << ",c=" << reach << ",sigma="<< standDeviation <<",loops="<< loops <<".dat";
+	fileName << "k=" << carryingCapacity << ",c=" << reach << ",delta="<< standDeviation <<",q="<< compatability <<",t="<< attempts <<",loops="<< loops <<".dat";
 
 	std::cout.precision(3);
 	std::cout << "  Evolving! (this could take some time)  "<<std::endl;
 	std::cout << "-----------------------------------------"<<std::endl;
 	std::cout << "carrying capacity: "<< carryingCapacity <<std::endl;
-	std::cout << "Competition distance (c): "<< reach <<std::endl;
 	std::cout << "standard Deviation (Delta): "<< standDeviation <<std::endl;
+	std::cout << "Competition distance (c): "<< reach <<std::endl;
+	std::cout << "Compatability (q): "<< compatability <<std::endl;
+	std::cout << "mating attempts/organism/tick (t): "<< attempts <<std::endl;
 	std::cout << "-----------------------------------------"<<std::endl;
 	org::environment test(1.0/carryingCapacity,reach,fileName.str()); //Create an environment with carrying capacity and range.
 
