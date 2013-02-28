@@ -45,7 +45,7 @@ void environment::deathThread(unsigned start, unsigned length, double* chances) 
 }
 
 void environment::death(){
-	std::vector<entity*>::iterator current;
+	std::vector<entity*>::iterator current,end;
 	double* chances = new double[getSize()];
 
 	//--Thread maths---------------------------------------
@@ -87,7 +87,9 @@ void environment::death(){
 	unsigned i(0);
 	std::vector<entity*> survivers;
 	survivers.reserve(this->getSize());
-	for (current=entities.begin(); current<entities.end(); ++current){
+	end=entities.end();
+
+	for (current=entities.begin(); current<end; ++current){
 		//std::cout<<"chances"<<i<<": "<<*(chances+i)<<std::endl;
 		if(!(*current)->death(*(chances+i))) survivers.push_back(*current);
 		i++;

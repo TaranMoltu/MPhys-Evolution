@@ -11,16 +11,31 @@
 
 int main(){
 	clock_t begin=clock();
-	double carryingCapacity(500);
-	double reach(0.5);
+	double carryingCapacity(1000);
+	double reach(16.0);
 	unsigned genomeSize(8);
 	unsigned int loops(2000); //Loops is the number of generations - can change safely
 
+	std::cout << "Carrying capacity (k): ";
+	std::cin >> carryingCapacity;
+	std::cout << std::endl << "Genome Size: ";
+	std::cin >> genomeSize;
+	std::cout << std::endl << "Competition distance (c): ";
+	std::cin >> reach;
+
 	std::stringstream fileName;
 	fileName << "k=" << carryingCapacity << ",c=" << reach << ",genome size="<<genomeSize<<",loops="<< loops <<".dat";
+
 	std::cout.precision(3);
-	std::cout << "Evolving! (this could take some time)"<<std::endl;
-	org::environment test(100.0,1.0,fileName.str()); //Create an environment with carrying capacity and range.
+	std::cout << "  Evolving! (this could take some time)  "<<std::endl;
+	std::cout << "-----------------------------------------"<<std::endl;
+	std::cout << "carrying capacity: "<< carryingCapacity <<std::endl;
+	std::cout << "Competition distance (c): "<< reach <<std::endl;
+	std::cout << "Genome Size: "<< genomeSize <<std::endl;
+	std::cout << "-----------------------------------------"<<std::endl;
+
+
+	org::environment test(carryingCapacity,reach,fileName.str()); //Create an environment with carrying capacity and range.
 	org::entity* temp;
 	org::genome* prototype;
 
