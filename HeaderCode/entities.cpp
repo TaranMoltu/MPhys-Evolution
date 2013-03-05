@@ -7,47 +7,46 @@
  */
 #include "../Headers/entities.h"
 #include "../Headers/random.h"
-using namespace org;
 
 
 /*============================================================================
  * Constructors
  *========================================================================== */
 
-height::height(const double &height, const double &sd, const double &rate1, const double &comp):
+org::height::height(const double &height, const double &sd, const double &rate1, const double &comp):
 	value(height),
 	standardDeviation(sd),
 	rate(rate1){
 	max=maths::pi; min=-maths::pi;
-	compatability=(max-min)*comp;
+	comp > 1.0 ? compatability = comp: compatability=(max-min)*comp;
 }
 
-void environment::addEntity(entity* toAdd){
+void org::environment::addEntity(org::entity* toAdd){
 	entities.push_back(toAdd);
 }
 
-genome::genome(){
+org::genome::genome(){
 	 gene* temp = new height;
 	 genes.push_back(temp);
 }
 
-genome::genome(gene* initial){
+org::genome::genome(org::gene* initial){
 	 gene* temp = initial->clone();
 	 genes.push_back(temp);
 }
 
-genome::genome(const genome &source){
+org::genome::genome(const org::genome &source){
 	for(unsigned int i(0);i<source.getSize();++i){
 		genes.push_back(source(i)->clone());
 	}
 }
 
-void genome::addGene(gene* toCopy){
+void org::genome::addGene(org::gene* toCopy){
 	 gene* temp = toCopy->clone();
 	 genes.push_back(temp);
 }
 
-genome genome::operator=(const genome &source){
+org::genome org::genome::operator=(const org::genome &source){
 	if (this!=&source) {
 		genes.clear();
 		for(unsigned int i(0);i<source.getSize();++i){
@@ -57,7 +56,7 @@ genome genome::operator=(const genome &source){
 	}
 	return *this;
 }
-environment::environment(double cap, double c, std::string log, const unsigned& attemp):
+org::environment::environment(double cap, double c, std::string log, const unsigned& attemp):
 		logFile(log), capacity(cap),  reach(c), attempts(attemp){
 		}
 
@@ -65,10 +64,10 @@ environment::environment(double cap, double c, std::string log, const unsigned& 
 /*============================================================================
  * Destructors
  *========================================================================== */
-height::~height(){};
+org::height::~height(){};
 
-genome::~genome(){
-	std::vector<gene*>::const_iterator current,begin,end;
+org::genome::~genome(){
+	std::vector<org::gene*>::const_iterator current,begin,end;
 	begin = genes.begin();
 	end = genes.end();
 
@@ -78,7 +77,7 @@ genome::~genome(){
 	genes.clear();
 }
 
-environment::~environment(){
+org::environment::~environment(){
 	std::vector<entity*>::const_iterator current,begin,end;
 	end = entities.end();
 
@@ -91,12 +90,12 @@ environment::~environment(){
 /*============================================================================
  * Accesors
  *========================================================================== */
-unsigned int genome::getSize()const{
+unsigned int org::genome::getSize()const{
 	 return genes.size();
 }
 
 
-gene* genome::operator()(const unsigned int i) const{//override brackets to give a sane return
+org::gene* org::genome::operator()(const unsigned int i) const{//override brackets to give a sane return
 	if (i < 0 || i > genes.size() ){
 			std::cout << "out of range" << std::endl;
 			return NULL;
@@ -106,28 +105,28 @@ gene* genome::operator()(const unsigned int i) const{//override brackets to give
 	}
 }
 
-double height::getValue()const{
+double org::height::getValue()const{
 	return value;
 }
 
-const gene* height::getGenePointer()const{
+const org::gene* org::height::getGenePointer()const{
 	return this;
 }
-gene* genome::getGenePointer(unsigned i)const{
+org::gene* org::genome::getGenePointer(unsigned i)const{
 	return genes[i];
 }
 
-unsigned int environment::getSize()const{
+unsigned int org::environment::getSize()const{
 	return entities.size();
 }
 
 /*============================================================================
  * tick
  *========================================================================== */
-void environment::tick(){
-	std::vector<entity*>::iterator current,end;
+void org::environment::tick(){
+	std::vector<org::entity*>::iterator current,end;
 	unsigned startPopulation;
-	entity* test;
+	org::entity* test;
 
 	death();
 	entities.reserve(entities.size()*2);//reserve memory for more efficient resizing
@@ -152,20 +151,20 @@ void environment::tick(){
  * Printing
  *========================================================================== */
 
-std::ostream & org::operator<<(std::ostream &os, const gene &source){
+std::ostream & org::operator<<(std::ostream &os, const org::gene &source){
 
 	os << source.info();
 
 	return os;
 }
 
-std::string height::info() const{
+std::string org::height::info() const{
 	std::stringstream out;
 	out << "height: " << value << "m" <<" sd: " << standardDeviation <<" range:"<< min <<" - "<< max;
 	return out.str();
 }
 
-std::ostream & org::operator<<(std::ostream &os, const genome &source){
+std::ostream & org::operator<<(std::ostream &os, const org::genome &source){
 	std::vector<gene*>::const_iterator current,begin,end;
 	begin = source.genes.begin();
 	end = source.genes.end();
@@ -175,7 +174,7 @@ std::ostream & org::operator<<(std::ostream &os, const genome &source){
 	}
 	return os;
 }
-std::ostream & org::operator<<(std::ostream &os, const entity &source){
+std::ostream & org::operator<<(std::ostream &os, const org::entity &source){
 	os << "\n-------------------Info----------------------"<<std::endl;
 	os << "Lifetime: " << source.lifetime << std::endl;
 	os << "------------------Genome---------------------"<<std::endl;
@@ -186,14 +185,14 @@ std::ostream & org::operator<<(std::ostream &os, const entity &source){
 
 }
 
-std::string entity::log() const{
+std::string org::entity::log() const{
 	std::stringstream out;
 	out << genes[0]->getValue();
 	return out.str();
 
 }
 
-void environment::log()const{
+void org::environment::log()const{
 	std::fstream logStream;
 	logStream.open(logFile.c_str(), std::ios::out | std::ios::app);
 	std::vector<entity*>::const_iterator current,end;

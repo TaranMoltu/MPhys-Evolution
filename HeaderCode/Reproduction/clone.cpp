@@ -7,17 +7,15 @@
 
 #include "../../Headers/entities.h"
 
-using namespace org;
-
 /*============================================================================
  * Factories
  *========================================================================== */
-gene* height::clone()const{
-	gene* temp = new height(this->value,this->standardDeviation,this->rate,this->compatability/(max-min));
+org::gene* org::height::clone()const{
+	gene* temp = new height(this->value,this->standardDeviation,this->rate,this->compatability);
 	return temp;
 }
 
-entity* entity::clone()const{
+org::entity* org::entity::clone()const{
 	entity* temp = new entity(this->lifetime,*this);
 	return temp;
 }
@@ -26,7 +24,7 @@ entity* entity::clone()const{
  * Asexual reproduction
  *========================================================================== */
 
-entity* entity::asex(){
+org::entity* org::entity::asex(){
 	entity* temp = this->clone();
 	temp->mutate();
 	return temp;

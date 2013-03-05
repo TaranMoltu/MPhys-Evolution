@@ -5,16 +5,9 @@
  *      Author: joshua
  */
 
-
-
-
 #include "../../Headers/entities.h"
-#include "../../Headers/random.h"
 
-using namespace org;
-
-
-bool genome::selection(const genome* spouseGenome)const{
+bool org::genome::selection(const org::genome* spouseGenome)const{
 	std::vector<gene*>::const_iterator current,begin,end;
 	begin = genes.begin();
 	end = genes.end();
@@ -26,7 +19,7 @@ bool genome::selection(const genome* spouseGenome)const{
 	return true;
 }
 
-bool height::selection(const org::gene* spouseGene) const{
+bool org::height::selection(const org::gene* spouseGene) const{
 	double distance(fabs(this->getValue()-spouseGene->getValue()));
 	if (distance > (max-min)/2.0) distance =(max-min)-distance;
 	//std::cout << distance << " vs " << compatability <<std::endl;

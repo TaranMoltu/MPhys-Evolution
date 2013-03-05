@@ -9,10 +9,9 @@
  */
 #include "../../Headers/random.h"
 #include "../../Headers/entities.h"
-using namespace org;
 
-void environment::death(){
-	std::vector<entity*>::iterator current, currentb;
+void org::environment::death(){
+	std::vector<org::entity*>::iterator current, currentb;
 	double* chances = new double[getSize()];
 
 	double x(0), y(0), normalisation(capacity/(std::sqrt(2.0*maths::pi)*reach));
@@ -67,7 +66,7 @@ void environment::death(){
 	delete[] chances;
 }
 
-bool entity::death(double evFactor){
+bool org::entity::death(double evFactor){
 	if (maths::roll.flat(0.0,1.0)>evFactor) return false;
 	else{
 	delete this;

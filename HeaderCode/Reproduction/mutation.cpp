@@ -8,10 +8,8 @@
 #include "../../Headers/entities.h"
 #include "../../Headers/random.h"
 
-using namespace org;
-
-void genome::mutate(){
-	std::vector<gene*>::const_iterator current,begin,end;
+void org::genome::mutate(){
+	std::vector<org::gene*>::const_iterator current,begin,end;
 	begin = genes.begin();
 	end = genes.end();
 
@@ -20,7 +18,7 @@ void genome::mutate(){
 	}
 }
 
-void height::mutate(){
+void org::height::mutate(){
 	double mean = value;
 	double sd= standardDeviation;
 
