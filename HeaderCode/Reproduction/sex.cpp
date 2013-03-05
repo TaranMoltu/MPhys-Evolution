@@ -14,16 +14,13 @@ using namespace org;
  * Gene Mating
  *========================================================================== */
 void height::mate(gene* spouseGene){
-	if(fabs(spouseGene->getValue()-this->getValue())<maths::pi){
-		value=(spouseGene->getValue()+this->getValue())/2.0;
+	double parentValue=this->getValue();
+	if(fabs(spouseGene->getValue()-parentValue)<maths::pi){
+		value=(spouseGene->getValue()+parentValue)/2.0;
 	}else{
-		if (spouseGene->getValue() > this->getValue()){
-			value=(spouseGene->getValue()+this->getValue()+2*maths::pi)/2.0;
-		}else{
-			value=(spouseGene->getValue()+this->getValue()-2*maths::pi)/2.0;
-		}
+		value=maths::pi-fabs(spouseGene->getValue()-parentValue)/2.0;
+		spouseGene->getValue() > parentValue ? value+=spouseGene->getValue() :value+=parentValue;
 	}
-
 
 	while(value  > max){
 			value = value -(max-min);
@@ -32,6 +29,7 @@ void height::mate(gene* spouseGene){
 	while(value  < min){
 		value = value +(max-min);
 	}
+	//std::cout << "mating " <<spouseGene->getValue() << " and " << parentValue << "to get " << value <<std::endl;
 }
 void genome::mate(genome* spouceGenome){
 	std::vector<gene*>::const_iterator current,begin,end;
@@ -52,7 +50,10 @@ void genome::mate(genome* spouceGenome){
  *========================================================================== */
 
 entity* entity::sex(entity* spouse){
-	if (!this->selection(spouse)){
+	if(this == spouse){
+		return NULL;//don't breed with self
+	}
+	else if (!this->selection(spouse)){
 	//if (false){
 		return NULL; //return null pointer if match is not appropriate
 	}

@@ -13,7 +13,7 @@ using namespace org;
  * Factories
  *========================================================================== */
 gene* height::clone()const{
-	gene* temp = new height(this->value,this->standardDeviation,this->rate,this->compatability);
+	gene* temp = new height(this->value,this->standardDeviation,this->rate,this->compatability/(max-min));
 	return temp;
 }
 

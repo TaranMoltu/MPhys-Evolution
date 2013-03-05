@@ -9,6 +9,7 @@
 
 
 #include "../../Headers/entities.h"
+#include "../../Headers/random.h"
 
 using namespace org;
 
@@ -26,6 +27,9 @@ bool genome::selection(const genome* spouseGenome)const{
 }
 
 bool height::selection(const org::gene* spouseGene) const{
-	if (fabs(this->getValue()-spouseGene->getValue())<compatability) return true;
+	double distance(fabs(this->getValue()-spouseGene->getValue()));
+	if (distance > (max-min)/2.0) distance =(max-min)-distance;
+	//std::cout << distance << " vs " << compatability <<std::endl;
+	if (distance<compatability) return true;
 	else return false;
 }
