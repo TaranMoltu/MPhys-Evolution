@@ -7,28 +7,34 @@
  */
 #include "../Headers/entities.h"
 #include "../Headers/random.h"
-#include <bitset>
-using namespace org;
+#include<bitset>
 
 
 /*============================================================================
  * Constructors
  *========================================================================== */
 
-/*height::height(const double &height, const double &sd, const double &rate1): value(height), standardDeviation(sd), rate(rate1) {
-	max=maths::pi; min=-maths::pi;
-}*/
+org::height::height(const genome* genome){
+	unsigned numberOfSites(2);
+	unsigned sites[2]={1,2};
 
-void environment::addEntity(entity* toAdd){
+	value =0.0;
+	for(unsigned i(0); i<numberOfSites; i++){
+		value+=(*genome)(sites[i])*maths::roll.gaussian(0.0,1.0);
+	}
+
+}
+
+void org::environment::addEntity(entity* toAdd){
 	entities.push_back(toAdd);
 }
 
-genome::genome(){
+org::genome::genome(){
 	 base2Genome.push_back(0x0);
 	 size=1;
 }
 
-genome::genome(const genome* source){
+org::genome::genome(const genome* source){
 	bool create(0);
 	if (source==NULL){source = new genome(); create =1;}
 	size=source->getSize();
@@ -41,7 +47,7 @@ genome::genome(const genome* source){
 	if (create){delete source;}
 }
 
-genome::genome(unsigned length){
+org::genome::genome(unsigned length){
 	size=length;
 	unsigned bytes;
 	length % 8>0 ? bytes=length/8+1:bytes=length/8;
@@ -54,7 +60,7 @@ genome::genome(unsigned length){
 	}
 }
 
-genome genome::operator=(const genome &source){
+org::genome org::genome::operator=(const genome &source){
 	if (this!=&source) {
 		base2Genome.clear();
 		unsigned bytes;
@@ -68,7 +74,7 @@ genome genome::operator=(const genome &source){
 	}
 	return *this;
 }
-environment::environment(double cap, double c, std::string log):
+org::environment::environment(double cap, double c, std::string log):
 		logFile(log), capacity(1.0/cap),  reach(c), minPosition(-maths::pi),maxPosition(maths::pi){
 		}
 
@@ -77,11 +83,11 @@ environment::environment(double cap, double c, std::string log):
  * Destructors
  *========================================================================== */
 
-genome::~genome(){
+org::genome::~genome(){
 
 }
 
-environment::~environment(){
+org::environment::~environment(){
 	std::vector<entity*>::const_iterator current,begin,end;
 	end = entities.end();
 
@@ -94,16 +100,16 @@ environment::~environment(){
 /*============================================================================
  * Accesors
  *========================================================================== */
-unsigned int genome::getSize()const{
+unsigned int org::genome::getSize()const{
 	 return size;
 }
 
-double entity::getPosition()const{
+double org::entity::getPosition()const{
 	return position;
 }
 
 
-int genome::operator()(const unsigned int i) const{//override brackets to give a sane return
+int org::genome::operator()(const unsigned int i) const{//override brackets to give a sane return
 	if (i < 0 || i > size ){
 			std::cerr << "out of range" << std::endl;
 			return -1;
@@ -115,15 +121,15 @@ int genome::operator()(const unsigned int i) const{//override brackets to give a
 }
 
 
-unsigned int environment::getSize()const{
+unsigned int org::environment::getSize()const{
 	return entities.size();
 }
 
-genome entity::getGenome() const{
+org::genome org::entity::getGenome() const{
 	return *this;
 }
 
-char genome::getGenomeByte(unsigned i) const{
+char org::genome::getGenomeByte(unsigned i) const{
 	if (i < 0 || i > base2Genome.size() ){
 		std::cerr << "out of range" << std::endl;
 		return -1;
@@ -133,10 +139,14 @@ char genome::getGenomeByte(unsigned i) const{
 	}
 }
 
+double org::height::getValue()const{
+	return value;
+}
+
 /*============================================================================
  * tick
  *========================================================================== */
-void environment::tick(){
+void org::environment::tick(){
 
 	std::vector<entity*>::iterator current,end;
 	try{
@@ -148,7 +158,6 @@ void environment::tick(){
 		for (current=entities.begin(); current<end; current++){
 			try{
 				this->addEntity((*current)->asex());
-			//std::cout<<"birth!"<<std::endl;
 			}catch(const std::exception &e){std::cout << e.what()<<std::endl;}
 		}
 	this->log();
@@ -189,7 +198,7 @@ std::ostream & org::operator<<(std::ostream &os, const entity &source){
 
 }
 
-std::string entity::log() const{
+std::string org::entity::log() const{
 	std::stringstream out;
 	std::bitset<8> x;
 	//out << "{";
@@ -209,7 +218,7 @@ std::string entity::log() const{
 
 }
 
-void environment::log()const{
+void org::environment::log()const{
 	std::fstream logStream;
 	logStream.open(logFile.c_str(), std::ios::out | std::ios::app);
 	std::vector<entity*>::const_iterator current,end;

@@ -12,21 +12,36 @@
 
 namespace org{
 
+class gene;
+class genome;
+class environment;
+
 class gene { //gene is an abstract base class for an organisms genes
 	
 	friend std::ostream & operator<<(std::ostream &os, const gene &source); //overloads <<operator
 
 	public:
 
-		virtual gene* clone()const=0;//factory
 		virtual ~gene(){}; //destructor
-		virtual void mutate()=0; // how does this gene mutate?
 		virtual bool selection()=0; //may need to be numerical later- how is this gene selected
 		virtual std::string info()const=0; //function for returning key details on an organism
 		virtual double getValue() const=0; //returns genes value eg returns height value for height etc
 		
 	
 	};
+class height : public gene {
+
+	private:
+		double value;
+
+	public:
+		height(const genome* genome);
+		~height(){};
+		bool selection();
+		std::string info()const;
+		double getValue()const;
+
+};
 	
 
 class genome{ //genome is a collection of all the genes an organism has rather like DNA
