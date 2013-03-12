@@ -50,7 +50,7 @@ int main(){
 	for(unsigned int i(0);i<carryingCapacity/10;i++){
 
 
-    prototypeGene =  new org::height(maths::roll.flat(-maths::pi,+maths::pi),standDeviation,1,compatability);
+    prototypeGene =  new org::height(maths::roll.flat(-maths::pi,+maths::pi),standDeviation,1,compatability*2*maths::pi);
     temp= new org::entity(prototypeGene);
 
     test.addEntity(temp);

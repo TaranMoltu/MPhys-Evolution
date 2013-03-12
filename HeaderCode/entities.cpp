@@ -18,7 +18,7 @@ org::height::height(const double &height, const double &sd, const double &rate1,
 	standardDeviation(sd),
 	rate(rate1){
 	max=maths::pi; min=-maths::pi;
-	comp > 1.0 ? compatability = comp: compatability=(max-min)*comp;
+	compatability = comp;
 }
 
 void org::environment::addEntity(org::entity* toAdd){
