@@ -19,8 +19,12 @@ org::height::height(const genome* genome){
 	unsigned sites[2]={1,2};
 
 	value =0.0;
+	double random;
 	for(unsigned i(0); i<numberOfSites; i++){
-		value+=(*genome)(sites[i])*maths::roll.gaussian(0.0,1.0);
+		std::cout <<"loopy"<< i << std::endl;
+		random =maths::roll.gaussian(0.1,0.2);
+		std::cout <<"random"<< i << std::endl;
+		value+=(*genome)(sites[i])*random;
 	}
 
 }
@@ -74,6 +78,12 @@ org::genome org::genome::operator=(const genome &source){
 	}
 	return *this;
 }
+
+org::entity::entity(const double pos,const genome* prototype) : genome(prototype), position(pos) {
+	gene* proto(new height(this));
+	genes.push_back(proto);
+}
+
 org::environment::environment(double cap, double c, std::string log):
 		logFile(log), capacity(1.0/cap),  reach(c), minPosition(-maths::pi),maxPosition(maths::pi){
 		}
@@ -167,6 +177,12 @@ void org::environment::tick(){
  * Printing
  *========================================================================== */
 
+
+std::string org::height::info()const{
+	std::stringstream out;
+	out << "[height " << this->getValue() << "]";
+	return out.str();
+}
 std::ostream & org::operator<<(std::ostream &os, const gene &source){
 
 	os << source.info();

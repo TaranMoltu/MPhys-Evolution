@@ -36,3 +36,9 @@ unsigned entity::distance(entity &compare) const{
 
 	return dist;
 }
+
+bool org::height::selection()const{
+
+
+return true;
+}

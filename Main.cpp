@@ -41,8 +41,11 @@ int main(){
 
 	for(unsigned int i(0);i<100;i++){
 		prototype=new org::genome(genomeSize);
+		std::cout << i << std::endl;
 		temp= new org::entity(0,prototype);
+		std::cout << i << std::endl;
 		test.addEntity(temp);
+
 	}
 
 	double done;
