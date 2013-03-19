@@ -81,7 +81,7 @@ class entity: public genome { //An organism which is made up of genomes. Derivat
 
 	public:
 		entity(const double pos=0.0,const genome* prototype=NULL);
-		virtual ~entity(){}
+		virtual ~entity();
 
 		std::string log() const; //outputs information on a gene
 		double getPosition() const;
@@ -93,6 +93,7 @@ class entity: public genome { //An organism which is made up of genomes. Derivat
 
 		bool death(double evFactor); //decides whether or not the entity of mail will elate above death
 		unsigned distance(entity &compare) const;
+		double competition(entity &compare) const;
 
 };
 

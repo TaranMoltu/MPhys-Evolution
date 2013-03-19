@@ -15,16 +15,12 @@
  *========================================================================== */
 
 org::height::height(const genome* genome){
-	unsigned numberOfSites(2);
-	unsigned sites[2]={1,2};
+	unsigned numberOfSites(6);
+	unsigned sites[6]={0,1,2,3,4,5};
 
 	value =0.0;
-	double random;
 	for(unsigned i(0); i<numberOfSites; i++){
-		std::cout <<"loopy"<< i << std::endl;
-		random =maths::roll.gaussian(0.1,0.2);
-		std::cout <<"random"<< i << std::endl;
-		value+=(*genome)(sites[i])*random;
+		value+=(*genome)(sites[i])*maths::roll.gaussian(1.0,0.0);
 	}
 
 }
@@ -106,6 +102,8 @@ org::environment::~environment(){
 	}
 	entities.clear();
 }
+
+org::entity::~entity(){}
 
 /*============================================================================
  * Accesors

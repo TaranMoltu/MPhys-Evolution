@@ -42,3 +42,9 @@ bool org::height::selection()const{
 
 return true;
 }
+
+double org::entity::competition(entity& comp)const{
+
+	return 1;
+}
+}

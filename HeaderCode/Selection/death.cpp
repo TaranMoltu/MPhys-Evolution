@@ -28,7 +28,7 @@ void environment::deathThread(unsigned start, unsigned length, double* chances) 
 
 		for (currentb=entities.begin(); currentb<entities.end(); ++currentb){
 			if (currentb!=current){
-				difference=(*current)->distance(**currentb);
+				difference=(*current)->competition(**currentb);
 				//std::cout << difference<<std::endl;
 				chance +=exp(-1.0*pow(difference,2.0)/(2.0*pow(reach,2.0)));
 				//std::cout<<"c: "<<chances<<std::end;
