@@ -10,6 +10,9 @@
 
 using namespace maths;
 
+double random::probabilityRoll(){
+	return double(rand()) / double(RAND_MAX);
+}
 
 double random::flat(double Min, double Max){
 	return ((double(rand()) / double(RAND_MAX)) * (Max - Min)) + Min;

@@ -27,6 +27,7 @@ namespace maths{
 			}
 
 			double flat(double Min, double Max);
+			double probabilityRoll();
 			int flat(int Min, int Max);
 			unsigned bit();
 

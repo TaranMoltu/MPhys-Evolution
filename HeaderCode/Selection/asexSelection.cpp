@@ -21,8 +21,8 @@ unsigned genome::distance(genome &compare) const{
 		}
 
 	return dist;
-
 }
+
 unsigned entity::distance(entity &compare) const{
 	unsigned dist = 0,val,bytes;
 	size % 8>0 ? bytes=size/8+1:bytes=size/8;
@@ -43,8 +43,9 @@ bool org::height::selection()const{
 return true;
 }
 
-double org::entity::competition(entity& comp)const{
+double org::entity::competition(entity& comp, double& reach)const{
+	double difference(distance(comp));
 
-	return 1;
+	return exp(-1.0*pow(difference,2.0)/(2.0*pow(reach,2.0)));
 }
-}
+

@@ -15,14 +15,19 @@
  *========================================================================== */
 
 org::height::height(const genome* genome){
+	orgGenome=genome;
+	this->updateValue();
+}
+void org::height::updateValue(){
 	unsigned numberOfSites(6);
 	unsigned sites[6]={0,1,2,3,4,5};
 
 	value =0.0;
 	for(unsigned i(0); i<numberOfSites; i++){
-		value+=(*genome)(sites[i])*maths::roll.gaussian(1.0,0.0);
+		//value+=(*genome)(sites[i])*maths::roll.gaussian(1.0,0.0);
+		value+=((*orgGenome)(sites[i]))*maths::roll.gaussian(0.2,0.02);
 	}
-
+	//std::cout << value <<std::endl;
 }
 
 void org::environment::addEntity(entity* toAdd){
@@ -124,7 +129,9 @@ int org::genome::operator()(const unsigned int i) const{//override brackets to g
 	}
 	else {
 		unsigned byte=i/8;
-		return base2Genome[byte] & 1<<(i-byte*8);
+		unsigned int lol(base2Genome[byte] & (0x1<<(i-byte*8)));
+		if (lol>1) lol=1;
+		return lol;
 	}
 }
 
@@ -241,6 +248,17 @@ void org::environment::log()const{
 	for (current=entities.begin(); current<end; ++current){
 		if (current==entities.begin()) logStream << (*current)->log();
 		else logStream << ","<<(*current)->log();
+	}
+
+	logStream <<std::endl;
+	logStream.close();
+
+	//----------------------------------------------------
+	logStream.open(("_"+logFile).c_str(), std::ios::out | std::ios::app);
+
+	for (current=entities.begin(); current<end; ++current){
+		if (current==entities.begin()) logStream << (*current)->genes[0]->getValue();
+		else logStream << ","<<(*current)->genes[0]->getValue();
 	}
 
 	logStream <<std::endl;

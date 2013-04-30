@@ -26,6 +26,7 @@ class gene { //gene is an abstract base class for an organisms genes
 		virtual bool selection()const=0; //may need to be numerical later- how is this gene selected
 		virtual std::string info()const=0; //function for returning key details on an organism
 		virtual double getValue() const=0; //returns genes value eg returns height value for height etc
+		virtual void updateValue()=0;
 		
 	
 	};
@@ -33,13 +34,14 @@ class height : public gene {
 
 	private:
 		double value;
-
+		const genome* orgGenome;
 	public:
 		height(const genome* genome);//done
 		~height(){};//done
 		bool selection()const;//tentively done
 		std::string info()const;//done
 		double getValue()const;
+		void updateValue();
 
 };
 	
@@ -77,9 +79,10 @@ class entity: public genome { //An organism which is made up of genomes. Derivat
 	protected:
 
 		double position;
-		std::vector<gene*> genes;
+
 
 	public:
+		std::vector<gene*> genes;
 		entity(const double pos=0.0,const genome* prototype=NULL);
 		virtual ~entity();
 
@@ -90,10 +93,11 @@ class entity: public genome { //An organism which is made up of genomes. Derivat
 		entity* clone() const; //factory for entities
 
 		entity* asex(); //reproduce asexually.
+		void updatePheno(); //Update the phenotype due to genetic changes
 
 		bool death(double evFactor); //decides whether or not the entity of mail will elate above death
 		unsigned distance(entity &compare) const;
-		double competition(entity &compare) const;
+		double competition(entity &compare, double &reach) const;
 
 };
 

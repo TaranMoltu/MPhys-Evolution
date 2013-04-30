@@ -25,6 +25,7 @@ entity* entity::clone()const{
 entity* entity::asex(){
 	entity* temp = this->clone();
 	temp->mutatePoint();
+	temp->updatePheno();
 	return temp;
 }
 
