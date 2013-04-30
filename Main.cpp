@@ -25,13 +25,10 @@ int main(){
 	std::cin >> standDeviation;
 	std::cout << std::endl << "Competition distance (c): ";
 	std::cin >> reach;
-	std::cout << std::endl << "Compatability (0-->1) (q): ";
-	std::cin >> compatability;
-	std::cout << std::endl << "mating attempts/organism/tick (t): ";
-	std::cin >> attempts;
+
 
 	std::stringstream fileName;
-	fileName << "k=" << carryingCapacity << ",c=" << reach << ",delta="<< standDeviation <<",q="<< compatability <<",t="<< attempts <<",loops="<< loops <<".dat";
+	fileName << "k=" << carryingCapacity << ",c=" << reach << ",delta="<< standDeviation <<",loops="<< loops <<".dat";
 
 	std::cout.precision(3);
 	std::cout << "  Evolving! (this could take some time)  "<<std::endl;
@@ -39,8 +36,6 @@ int main(){
 	std::cout << "carrying capacity: "<< carryingCapacity <<std::endl;
 	std::cout << "standard Deviation (Delta): "<< standDeviation <<std::endl;
 	std::cout << "Competition distance (c): "<< reach <<std::endl;
-	std::cout << "Compatability (q): "<< compatability <<std::endl;
-	std::cout << "mating attempts/organism/tick (t): "<< attempts <<std::endl;
 	std::cout << "-----------------------------------------"<<std::endl;
 	org::environment test(1.0/carryingCapacity,reach,fileName.str()); //Create an environment with carrying capacity and range.
 

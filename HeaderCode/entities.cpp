@@ -18,7 +18,6 @@ org::height::height(const double &height, const double &sd, const double &rate1,
 	standardDeviation(sd),
 	rate(rate1){
 	max=maths::pi; min=-maths::pi;
-	compatability = comp;
 }
 
 void org::environment::addEntity(org::entity* toAdd){
@@ -56,9 +55,8 @@ org::genome org::genome::operator=(const org::genome &source){
 	}
 	return *this;
 }
-org::environment::environment(double cap, double c, std::string log, const unsigned& attemp):
-		logFile(log), capacity(cap),  reach(c), attempts(attemp){
-		}
+org::environment::environment(double cap, double c, std::string log):
+		logFile(log), capacity(cap),  reach(c){}
 
 
 /*============================================================================
@@ -125,24 +123,13 @@ unsigned int org::environment::getSize()const{
  *========================================================================== */
 void org::environment::tick(){
 	std::vector<org::entity*>::iterator current,end;
-	unsigned startPopulation;
-	org::entity* test;
 
 	death();
 	entities.reserve(entities.size()*2);//reserve memory for more efficient resizing
 
 	end=entities.end();
-	startPopulation=getSize();
 	for (current=entities.begin(); current<end; current++){
-		for (unsigned i(0);i<attempts;i++){
-			test=(*current)->sex(*(entities.begin()+maths::roll.flat(0,startPopulation)));//have sex with some random entity
-			//test=(*current)->asex();
-			if (test!=NULL) {
-				this->addEntity(test);
-				break;
-
-			}
-		}
+		this->addEntity((*current)->asex());
 	}
 	this->log();
 }

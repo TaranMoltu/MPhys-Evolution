@@ -21,11 +21,9 @@ class gene { //gene is an abstract base class for an organisms genes
 		virtual ~gene(){}; //destructor
 		virtual void mutate()=0; // how does this gene mutate?
 		virtual bool selection()const=0; //may need to be numerical later- how is this gene selected
-		virtual bool selection(const gene* spouceGene)const=0;
 		virtual std::string info()const=0; //function for returning key details on an organism
 		virtual double getValue() const=0; //returns genes value eg returns height value for height etc
 		virtual const gene* getGenePointer() const=0;
-		virtual void mate(gene* spouceGene)=0;
 		
 	
 	};
@@ -36,7 +34,6 @@ class height : public gene{ //height is an implementation of gene
 		double standardDeviation; //for purpose of mutation function
 		double min,max; //range of possible values
 		double rate; //rate of mutation
-		double compatability; //maximum range at which 2 organisms with this gene can breed
 
 	public:
 		virtual gene* clone()const;
@@ -44,12 +41,10 @@ class height : public gene{ //height is an implementation of gene
 		~height();
 		virtual void mutate();
 		virtual bool selection()const;
-		virtual bool selection(const gene* spouceGene)const;
 		virtual std::string info() const;
 
 		virtual double getValue() const;
 		virtual const gene* getGenePointer() const;
-		virtual void mate(gene* spouceGene);
 
 	};
 
@@ -99,7 +94,6 @@ class entity: public genome { //An organism which is made up of genomes. Derivat
 		entity* clone() const; //factory for entities
 
 		entity* asex(); //reproduce asexually.
-		entity* sex(entity* spouce); //reproduce sexually.
 
 		bool death(double evFactor); //decides whether or not the entity of mail will elate above death
 
@@ -111,10 +105,9 @@ class environment{ //collection of entities
 		std::string logFile;
 		double capacity;
 		double reach; //c
-		unsigned attempts;
 
 	public:
-		environment(double cap=1.0/100.0, double c=0.9, std::string log="log.dat", const unsigned& attemp = 50);
+		environment(double cap=1.0/100.0, double c=0.9, std::string log="log.dat");
 		~environment();
 		void addEntity(entity* toAdd);
 
