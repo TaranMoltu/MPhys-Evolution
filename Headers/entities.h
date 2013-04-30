@@ -93,15 +93,28 @@ class entity: public genome { //An organism which is made up of genomes. Derivat
 
 };
 
+class region {
+	protected:
+		double start;
+		double end;
+		double modifier;//multiplicive modifier
+	public:
+		region(double start = 0.0, double end=0.0, double modifier=1.1);
+		~region(){}
+		bool inRegion(const double check) const;
+		double chanceModifier(const double check)const;
+};
+
 class environment{ //collection of entities
 	protected:
 		std::list<entity*> entities;
 		std::string logFile;
 		double capacity;
 		double reach; //c
+		region favoured;
 
 	public:
-		environment(double cap=1.0/100.0, double c=0.9, std::string log="log.dat");
+		environment(double cap=1.0/100.0, double c=0.9, std::string log="log.dat", const double regionStart=1.0, const double regionEnd=2.0, const  double regionMod=1.1);
 		~environment();
 		void addEntity(entity* toAdd);
 
@@ -112,6 +125,8 @@ class environment{ //collection of entities
 		unsigned int getSize()const;
 
 	};
+
+
 
 std::ostream & operator<<(std::ostream &os, const gene &source);
 std::ostream & operator<<(std::ostream &os, const genome &source);

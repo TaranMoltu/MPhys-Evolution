@@ -53,10 +53,12 @@ genome genome::operator=(const genome &source){
 	}
 	return *this;
 }
-environment::environment(double cap, double c, std::string log):
+environment::environment(double cap, double c, std::string log,const double regionStart, const double regionEnd, const double regionMod):
 		logFile(log), capacity(cap),  reach(c){
+	favoured=region(regionStart,regionEnd,regionMod);
 		}
-
+region::region(double start, double end, double modifier):
+		start(start), end(end),modifier(modifier){}
 
 /*============================================================================
  * Destructors

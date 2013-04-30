@@ -41,7 +41,7 @@ void environment::death(){
 		j++;
 		}
 		//std::cout<<"chances: "<<chances<<std::endl;
-		*(chances+i) *=normalisation;
+		*(chances+i) *=normalisation*this->favoured.chanceModifier(x);
 		if((*current)->death(*(chances+i))){
 			current=--(entities.erase(current));
 		}
@@ -63,24 +63,16 @@ void environment::death(){
 	delete[] chances;
 }
 
-/*
-void environment::death(){
-	std::list<entity*>::iterator current;
-
-	unsigned int size(getSize());
-
-	double difference(0);
-
-	for (current=entities.begin(); current!=entities.end(); ++current){
-
-		if((*current)->death(size*capacity)){
-			current=--(entities.erase(current));
-		}
-
-	}
-
+bool region::inRegion(const double check)const{
+	if (check > this->start && check < this->end) return true;
+	else return false;
 }
-*/
+
+double region::chanceModifier(const double check)const{
+	if(inRegion(check)) return this->modifier;
+	else return 1.0;
+}
+
 bool entity::death(double evFactor){
 	if (maths::roll.flat(0.0,1.0)>evFactor) return false;
 	else{
