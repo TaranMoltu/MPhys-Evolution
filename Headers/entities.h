@@ -101,6 +101,7 @@ class region {
 	public:
 		region(double start = 0.0, double end=0.0, double modifier=1.1);
 		~region(){}
+		region operator=(const region &source);
 		bool inRegion(const double check) const;
 		double chanceModifier(const double check)const;
 };
@@ -114,7 +115,7 @@ class environment{ //collection of entities
 		region favoured;
 
 	public:
-		environment(double cap=1.0/100.0, double c=0.9, std::string log="log.dat", const double regionStart=1.0, const double regionEnd=2.0, const  double regionMod=1.1);
+		environment(double cap=1.0/100.0, double c=0.9, std::string log="log.dat", const double regionStart=-1.0, const double regionEnd=1.0, const  double regionMod=3.0);
 		~environment();
 		void addEntity(entity* toAdd);
 

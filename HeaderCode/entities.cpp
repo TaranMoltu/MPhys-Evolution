@@ -53,6 +53,16 @@ genome genome::operator=(const genome &source){
 	}
 	return *this;
 }
+
+region region::operator=(const region &source){
+	if (this!=&source) {
+		start= source.start;
+		end= source.end;
+		modifier=source.modifier;
+	}
+	return *this;
+}
+
 environment::environment(double cap, double c, std::string log,const double regionStart, const double regionEnd, const double regionMod):
 		logFile(log), capacity(cap),  reach(c){
 	favoured=region(regionStart,regionEnd,regionMod);
