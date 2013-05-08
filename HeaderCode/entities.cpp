@@ -19,8 +19,8 @@ org::height::height(const genome* genome){
 	this->updateValue();
 }
 void org::height::updateValue(){
-	unsigned numberOfSites(6);
-	unsigned sites[6]={0,1,2,3,4,5};
+	unsigned numberOfSites(7);
+	unsigned sites[7]={0,1,2,3,4,5,6};
 
 	value =0.0;
 	for(unsigned i(0); i<numberOfSites; i++){
